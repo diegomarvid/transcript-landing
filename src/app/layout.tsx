@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "Transcript — Automatic Meeting Transcription for macOS",
   description:
     "Record and transcribe your meetings automatically. Transcript is a macOS menu bar app that captures audio and generates AI-powered summaries.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

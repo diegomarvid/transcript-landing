@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 function Nav() {
@@ -8,9 +9,13 @@ function Nav() {
           href="/"
           className="flex items-center gap-2.5 text-sm font-semibold tracking-tight"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 text-[13px]">
-            T
-          </span>
+          <Image
+            src="/app-icon-128.png"
+            alt="Transcript"
+            width={28}
+            height={28}
+            className="rounded-lg"
+          />
           Transcript
         </Link>
         <div className="flex items-center gap-6 text-[13px] text-zinc-400">
@@ -69,6 +74,14 @@ export default function Home() {
         <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center_top,rgba(124,58,237,0.12),transparent_60%)]" />
           <div className="mx-auto max-w-5xl px-6 pb-24 pt-28 text-center">
+            <Image
+              src="/app-icon.png"
+              alt="Transcript app icon"
+              width={96}
+              height={96}
+              className="mx-auto mb-8 rounded-2xl shadow-2xl shadow-violet-500/10"
+              priority
+            />
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.06] bg-white/[0.03] px-3.5 py-1 text-[13px] text-zinc-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               macOS Menu Bar App
