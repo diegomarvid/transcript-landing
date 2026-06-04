@@ -1,12 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  AudioLines,
   Calendar,
   Clock,
-  FileText,
-  FolderCheck,
-  ListChecks,
   Mic,
   Video,
   X,
@@ -78,33 +74,6 @@ const valuePoints = [
   {
     value: "Claude or ChatGPT",
     label: "Connects to Claude Code or Codex with the subscription you already have.",
-  },
-];
-
-const workflow = [
-  {
-    title: "Capture",
-    desc: "Record mic plus system audio from whichever call is live.",
-    output: "call.m4a",
-    icon: AudioLines,
-  },
-  {
-    title: "Transcribe",
-    desc: "Whisper writes a timestamped transcript on your Mac.",
-    output: "transcript.vtt",
-    icon: FileText,
-  },
-  {
-    title: "Recap",
-    desc: "Codex or Claude Code turns quotes, decisions, and follow-ups into notes.",
-    output: "recap.md",
-    icon: ListChecks,
-  },
-  {
-    title: "Organize",
-    desc: "Calendar context, AI names, tags, and exports keep it findable.",
-    output: "session folder",
-    icon: FolderCheck,
   },
 ];
 
@@ -743,97 +712,6 @@ Overlap: Both sides are active; attribution is tentative.
 00:03:31.400 --> 00:03:38.600
 Remote: Support needs the migration checklist before launch.`}
               </pre>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-white/10 py-14 sm:py-20">
-          <div className="mx-auto max-w-6xl px-5 sm:px-6">
-            <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="mb-2 text-sm text-[#d9ff72] sm:mb-3">
-                  How it works
-                </p>
-                <h2 className="max-w-2xl text-2xl font-semibold sm:text-4xl">
-                  From call audio to a recap you can use.
-                </h2>
-              </div>
-              <p className="max-w-sm text-sm leading-6 text-[#aeb5a8] sm:leading-7">
-                Record once. Transcript handles the private middle: local
-                transcription, recap context, and tidy exports.
-              </p>
-            </div>
-
-            <div className="overflow-hidden rounded-lg border border-white/10 bg-[#12150f] shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-              <div className="flex items-center justify-between border-b border-white/10 bg-black/15 px-4 py-2.5 sm:px-5 sm:py-3">
-                <div className="flex items-center gap-2">
-                  <span className="size-3 rounded-full bg-[#ff6b57]" />
-                  <span className="size-3 rounded-full bg-[#f7c758]" />
-                  <span className="size-3 rounded-full bg-[#65d26e]" />
-                </div>
-                <span className="font-mono text-[11px] text-[#7d8377]">
-                  transcript run
-                </span>
-              </div>
-
-              <div className="grid lg:grid-cols-4">
-                {workflow.map((step, index) => {
-                  const Icon = step.icon;
-
-                  return (
-                    <div
-                      key={step.title}
-                      className="relative border-b border-white/10 p-4 last:border-b-0 sm:p-6 lg:min-h-[255px] lg:border-b-0 lg:border-r lg:last:border-r-0"
-                    >
-                      <div className="mb-4 flex items-start justify-between gap-4 lg:mb-8">
-                        <span className="font-mono text-[12px] text-[#8d9286]">
-                          0{index + 1}
-                        </span>
-                        <span className="rounded border border-white/10 bg-black/20 px-2 py-1 font-mono text-[11px] text-[#b8beb1]">
-                          {step.output}
-                        </span>
-                      </div>
-
-                      <div className="mb-4 flex items-center gap-3 lg:mb-6 lg:gap-0">
-                        <div className="relative z-10 flex size-11 items-center justify-center rounded-lg border border-white/10 bg-[#191d14] text-[#d9ff72] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
-                          <Icon aria-hidden="true" className="size-5" />
-                        </div>
-                        <h3 className="text-lg font-semibold text-[#f5f7ef] lg:hidden">
-                          {step.title}
-                        </h3>
-                        {index < workflow.length - 1 && (
-                          <div
-                            aria-hidden="true"
-                            className="ml-4 hidden h-px flex-1 bg-[linear-gradient(90deg,rgba(217,255,114,0.5),rgba(255,255,255,0.08))] lg:block"
-                          />
-                        )}
-                      </div>
-
-                      <h3 className="mb-3 hidden text-xl font-semibold text-[#f5f7ef] lg:block">
-                        {step.title}
-                      </h3>
-                      <p className="text-sm leading-6 text-[#aeb5a8] lg:leading-6">
-                        {step.desc}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="hidden border-t border-white/10 bg-black/20 px-5 py-4 sm:block">
-                <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] text-[#8d9286]">
-                  {workflow.map((step, index) => (
-                    <span key={step.output} className="flex items-center gap-2">
-                      <span>{step.output}</span>
-                      {index < workflow.length - 1 && (
-                        <span aria-hidden="true" className="text-[#4f554b]">
-                          /
-                        </span>
-                      )}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </section>
