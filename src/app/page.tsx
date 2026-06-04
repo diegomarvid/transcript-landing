@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   Calendar,
   Clock,
+  Download,
   Mic,
   Video,
   X,
@@ -14,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { getLatestRelease } from "@/lib/releases";
+import { personalLicensePrice } from "@/lib/commerce";
 import { createPageMetadata, supportEmail } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -195,12 +197,12 @@ function Nav() {
           Transcript
         </Link>
         <div className="flex items-center gap-4 text-[13px] text-[#b7baad] sm:gap-5">
-          <a
-            href="/download"
+          <Link
+            href="/buy"
             className="hidden rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[#ecffae] transition hover:border-[#d9ff72]/50 sm:inline-flex"
           >
-            Download
-          </a>
+            Buy {personalLicensePrice}
+          </Link>
           <Link href="/changelog" className="transition-colors hover:text-white">
             Changes
           </Link>
@@ -556,18 +558,19 @@ export default async function Home() {
                 ))}
               </div>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="/download"
+                <Link
+                  href="/buy"
                   className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
                 >
-                  Download for macOS
-                </a>
-                <Link
-                  href="/changelog"
+                  Buy for {personalLicensePrice}
+                </Link>
+                <a
+                  href="/download"
                   className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
                 >
-                  See what changed
-                </Link>
+                  <Download aria-hidden="true" className="mr-2 size-4" />
+                  Download latest
+                </a>
               </div>
               <p className="mt-4 text-[13px] text-[#8d9286]">
                 Requires macOS 15.7 or later. No meeting bot, extension, or
@@ -633,6 +636,12 @@ export default async function Home() {
               <h2 className="max-w-xl text-3xl font-semibold sm:text-4xl">
                 Pay once. Use the AI you already have.
               </h2>
+              <Link
+                href="/buy"
+                className="mt-6 inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
+              >
+                Buy Transcript for {personalLicensePrice}
+              </Link>
             </div>
             <div className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5">
               <div className="grid gap-5 sm:grid-cols-3">

@@ -5,6 +5,7 @@ import {
   siteUrl,
   supportEmail,
 } from "@/lib/seo";
+import { personalLicensePrice } from "@/lib/commerce";
 
 export function OrganizationSchema() {
   const schema = {
@@ -74,7 +75,9 @@ export function SoftwareApplicationSchema() {
     offers: {
       "@type": "Offer",
       availability: "https://schema.org/InStock",
-      url: absoluteUrl("/download"),
+      price: personalLicensePrice.replace("$", ""),
+      priceCurrency: "USD",
+      url: absoluteUrl("/buy"),
     },
     featureList: [
       "Mic and system audio recording",
