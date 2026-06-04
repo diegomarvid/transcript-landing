@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${plexSans.variable} ${plexMono.variable} antialiased`}
+        className={`${plexSans.variable} ${plexMono.variable} overflow-x-hidden antialiased`}
       >
         {children}
       </body>

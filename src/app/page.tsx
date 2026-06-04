@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const downloadUrl =
-  "https://pub-7d99cd07d4d741d296b2c69112c91153.r2.dev/Transcript-1.0.50.dmg";
+import { getLatestRelease } from "@/lib/releases";
 
 const features = [
   {
@@ -52,17 +50,26 @@ function Nav() {
           />
           Transcript
         </Link>
-        <div className="flex items-center gap-5 text-[13px] text-[#b7baad]">
+        <div className="flex items-center gap-4 text-[13px] text-[#b7baad] sm:gap-5">
           <a
-            href={downloadUrl}
+            href="/download"
             className="hidden rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[#ecffae] transition hover:border-[#d9ff72]/50 sm:inline-flex"
           >
             Download
           </a>
-          <Link href="/privacy" className="transition-colors hover:text-white">
+          <Link href="/changelog" className="transition-colors hover:text-white">
+            Changes
+          </Link>
+          <Link
+            href="/privacy"
+            className="hidden transition-colors hover:text-white min-[460px]:inline"
+          >
             Privacy
           </Link>
-          <Link href="/terms" className="transition-colors hover:text-white">
+          <Link
+            href="/terms"
+            className="hidden transition-colors hover:text-white min-[520px]:inline"
+          >
             Terms
           </Link>
         </div>
@@ -85,9 +92,12 @@ function Footer() {
           />
           <span>&copy; {new Date().getFullYear()} Transcript.</span>
         </div>
-        <div className="flex gap-5">
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
           <Link href="/privacy" className="transition-colors hover:text-white">
             Privacy Policy
+          </Link>
+          <Link href="/changelog" className="transition-colors hover:text-white">
+            Changelog
           </Link>
           <Link href="/terms" className="transition-colors hover:text-white">
             Terms of Service
@@ -185,7 +195,9 @@ function ProductScene() {
 
 export { Nav, Footer };
 
-export default function Home() {
+export default async function Home() {
+  const latestRelease = await getLatestRelease();
+
   return (
     <>
       <Nav />
@@ -202,7 +214,7 @@ export default function Home() {
               priority
             />
             <p className="mb-4 rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[13px] text-[#ecffae]">
-              macOS meeting recorder - v1.0.50
+              macOS meeting recorder - {latestRelease.tag}
             </p>
             <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-7xl sm:leading-[1.02]">
               Meeting notes that remember the room.
@@ -214,7 +226,7 @@ export default function Home() {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href={downloadUrl}
+                href="/download"
                 className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
               >
                 Download for macOS
