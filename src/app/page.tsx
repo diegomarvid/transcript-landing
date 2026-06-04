@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   Calendar,
   Clock,
-  Download,
   Mic,
   Video,
   X,
@@ -201,7 +200,7 @@ function Nav() {
             href="/buy"
             className="hidden rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[#ecffae] transition hover:border-[#d9ff72]/50 sm:inline-flex"
           >
-            Buy {personalLicensePrice}
+            Download
           </Link>
           <Link href="/changelog" className="transition-colors hover:text-white">
             Changes
@@ -562,19 +561,18 @@ export default async function Home() {
                   href="/buy"
                   className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
                 >
-                  Buy for {personalLicensePrice}
+                  Download for macOS
                 </Link>
                 <a
                   href="/download"
                   className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
                 >
-                  <Download aria-hidden="true" className="mr-2 size-4" />
-                  Download latest
+                  Already bought? Get latest
                 </a>
               </div>
               <p className="mt-4 text-[13px] text-[#8d9286]">
-                Requires macOS 15.7 or later. No meeting bot, extension, or
-                platform-specific recorder required.
+                One-time {personalLicensePrice} license. Download starts after
+                checkout. Requires macOS 15.7 or later.
               </p>
             </div>
 
@@ -640,7 +638,7 @@ export default async function Home() {
                 href="/buy"
                 className="mt-6 inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
               >
-                Buy Transcript for {personalLicensePrice}
+                Download after checkout
               </Link>
             </div>
             <div className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5">
