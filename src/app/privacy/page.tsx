@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Nav, Footer } from "../page";
+import { Footer, Nav } from "../page";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Transcript",
+  title: "Privacy Policy - Transcript",
   description: "Privacy Policy for the Transcript macOS application.",
 };
 
@@ -11,149 +11,142 @@ export default function Privacy() {
   return (
     <>
       <Nav />
-      <main className="pt-14">
+      <main className="bg-[#11130f] pt-14 text-[#f5f7ef]">
         <article className="mx-auto max-w-3xl px-6 pb-24 pt-16">
-          <h1 className="mb-2 text-3xl font-bold tracking-tight">
-            Privacy Policy
-          </h1>
-          <p className="mb-10 text-sm text-zinc-500">
-            Last updated: February 19, 2026
+          <h1 className="mb-2 text-3xl font-semibold">Privacy Policy</h1>
+          <p className="mb-10 text-sm text-[#8d9286]">
+            Last updated: June 4, 2026
           </p>
 
-          <div className="space-y-8 text-sm leading-relaxed text-zinc-400 [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-zinc-200 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1">
+          <div className="space-y-8 text-sm leading-relaxed text-[#aeb5a8] [&_a]:text-[#d9ff72] [&_a]:underline [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px] [&_code]:text-[#ecffae] [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-[#f5f7ef] [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
             <section>
               <h2>Overview</h2>
               <p>
-                Transcript (&quot;the App&quot;) is a macOS desktop application
-                that records audio and generates AI-powered transcriptions. We
-                are committed to protecting your privacy. This policy explains
-                what data the App accesses, how it is used, and your rights.
+                Transcript is a macOS application and bundled CLI for recording
+                meetings, transcribing audio, and generating AI recaps. There is
+                no Transcript-operated backend, analytics service, ad network,
+                or telemetry pipeline.
               </p>
             </section>
 
             <section>
               <h2>Data We Collect</h2>
               <p>
-                <strong className="text-zinc-300">
-                  We do not collect, store, or transmit any personal data to our
+                <strong className="text-[#f5f7ef]">
+                  We do not collect, store, or sell your personal data on our
                   servers.
                 </strong>{" "}
-                The App runs entirely on your Mac. There is no Transcript
-                backend, no analytics, and no telemetry.
+                The app stores your recordings, transcripts, recaps, tags,
+                prompts, metadata, and settings on your Mac.
               </p>
             </section>
 
             <section>
-              <h2>Audio Recordings</h2>
+              <h2>Recordings and Transcripts</h2>
               <ul>
                 <li>
-                  All recordings are saved locally on your Mac in{" "}
-                  <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[13px] text-zinc-300">
-                    ~/Documents/Transcript-App
-                  </code>
-                  .
+                  Recordings are saved locally in your configured Transcript data
+                  folder. The default location is{" "}
+                  <code>~/Documents/Transcript-App</code>.
                 </li>
                 <li>
-                  Audio is sent to the Google Gemini API solely for the purpose
-                  of transcription. Google processes the audio in real time and
-                  does not retain it after the response is generated. See{" "}
-                  <a
-                    href="https://ai.google.dev/gemini-api/terms"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-violet-400 underline underline-offset-2 hover:text-violet-300"
-                  >
-                    Google&apos;s Gemini API Terms
-                  </a>{" "}
-                  for details.
+                  Local Whisper transcription processes audio on your device.
                 </li>
                 <li>
-                  You are in full control of your recordings and can delete them
-                  at any time from Finder.
+                  If you choose a cloud transcription or recap provider, the app
+                  or CLI sends the relevant audio, transcript, recap input, or
+                  prompt directly to that provider from your Mac.
+                </li>
+                <li>
+                  You can delete recordings, transcripts, recaps, and metadata
+                  from Finder at any time.
                 </li>
               </ul>
             </section>
 
             <section>
+              <h2>Local/Remote Diarization</h2>
+              <p>
+                When Local/Remote diarization is enabled, Transcript writes a
+                hidden <code>.channels/activity.json</code> file next to the
+                recording. This file contains derived RMS and peak activity by
+                second for microphone and system audio. It is not an audio file
+                and cannot reconstruct speech.
+              </p>
+            </section>
+
+            <section>
               <h2>Google Calendar Integration</h2>
               <p>
-                The App optionally connects to your Google Calendar using
-                OAuth 2.0. When enabled:
+                Google Calendar connection is optional and uses OAuth 2.0. When
+                enabled:
               </p>
               <ul>
                 <li>
-                  We request{" "}
-                  <strong className="text-zinc-300">read-only</strong> access to
-                  your calendar (
-                  <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[13px] text-zinc-300">
-                    calendar.readonly
-                  </code>
-                  ) and your email address (
-                  <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[13px] text-zinc-300">
-                    userinfo.email
-                  </code>
-                  ).
+                  Transcript requests read-only calendar access and your email
+                  address.
                 </li>
                 <li>
-                  Calendar data is used solely to match recordings with meetings
-                  happening at the same time, displaying the meeting title and
-                  attendees alongside the transcript.
+                  Calendar data is used to match a recording with the meeting
+                  happening at the same time, display meeting context, and infer
+                  a local-speaker hint from the calendar account.
                 </li>
                 <li>
-                  OAuth tokens are stored securely in the macOS Keychain on your
-                  device. They are never sent to any server other than
-                  Google&apos;s OAuth endpoints.
+                  OAuth tokens are stored in the macOS Keychain and are not sent
+                  to any Transcript server.
                 </li>
                 <li>
-                  We do not read, modify, or delete any calendar events. Access
-                  is strictly read-only.
-                </li>
-                <li>
-                  You can disconnect your Google account at any time from the
-                  App&apos;s settings, which removes all stored tokens.
+                  Transcript does not create, edit, or delete calendar events.
                 </li>
               </ul>
             </section>
 
             <section>
               <h2>Third-Party Services</h2>
-              <p>The App communicates with the following third-party services:</p>
+              <p>
+                Depending on your settings, Transcript may communicate with:
+              </p>
               <ul>
                 <li>
-                  <strong className="text-zinc-300">Google Gemini API</strong> —
-                  for audio transcription. Audio is processed in transit and not
-                  retained.
+                  Google Gemini API, OpenAI API, Codex CLI, or Claude Code for
+                  transcription, recap, title generation, or related AI tasks.
                 </li>
                 <li>
-                  <strong className="text-zinc-300">Google Calendar API</strong>{" "}
-                  — for reading calendar events (optional, user-initiated).
+                  Google Calendar API for optional read-only calendar matching.
                 </li>
                 <li>
-                  <strong className="text-zinc-300">Sparkle</strong> — for
-                  checking app updates. Only your app version and macOS version
-                  are included in the update check request.
+                  Sparkle and Cloudflare R2 for app update checks and download
+                  assets.
                 </li>
               </ul>
               <p className="mt-2">
-                No other third-party services, analytics platforms, or ad
-                networks are used.
+                Third-party providers process data according to their own terms
+                and policies. Transcript does not proxy these requests through a
+                Transcript server.
               </p>
             </section>
 
             <section>
-              <h2>Data Storage & Security</h2>
+              <h2>Credentials</h2>
               <ul>
                 <li>
-                  All data (recordings, transcripts, metadata, settings) is
-                  stored locally on your Mac.
+                  Google OAuth tokens are stored in the macOS Keychain.
                 </li>
                 <li>
-                  OAuth tokens are stored in the macOS Keychain, which provides
-                  hardware-backed encryption.
+                  API keys and local AI tool credentials stay on your Mac in the
+                  app settings or the relevant CLI configuration.
                 </li>
                 <li>
-                  Your Gemini API key is stored in UserDefaults on your device
-                  and is never transmitted anywhere except to the Gemini API.
+                  You can revoke Google access from Transcript settings or from
+                  your{" "}
+                  <a
+                    href="https://myaccount.google.com/permissions"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Google Account permissions
+                  </a>
+                  .
                 </li>
               </ul>
             </section>
@@ -161,30 +154,24 @@ export default function Privacy() {
             <section>
               <h2>Children&apos;s Privacy</h2>
               <p>
-                The App is not directed at children under the age of 13. We do
-                not knowingly collect information from children.
+                Transcript is not directed at children under 13. We do not
+                knowingly collect information from children.
               </p>
             </section>
 
             <section>
               <h2>Changes to This Policy</h2>
               <p>
-                We may update this Privacy Policy from time to time. Changes will
-                be posted on this page with an updated revision date. Continued
-                use of the App after changes constitutes acceptance of the
-                revised policy.
+                We may update this Privacy Policy from time to time. Changes
+                will be posted on this page with an updated revision date.
               </p>
             </section>
 
             <section>
               <h2>Contact</h2>
               <p>
-                If you have questions about this Privacy Policy, please contact
-                us at{" "}
-                <a
-                  href="mailto:diegomarvid99@gmail.com"
-                  className="text-violet-400 underline underline-offset-2 hover:text-violet-300"
-                >
+                If you have questions about this Privacy Policy, contact{" "}
+                <a href="mailto:diegomarvid99@gmail.com">
                   diegomarvid99@gmail.com
                 </a>
                 .
@@ -192,10 +179,10 @@ export default function Privacy() {
             </section>
           </div>
 
-          <div className="mt-12 border-t border-white/[0.06] pt-6">
+          <div className="mt-12 border-t border-white/10 pt-6">
             <Link
               href="/"
-              className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              className="text-sm text-[#8d9286] transition-colors hover:text-white"
             >
               &larr; Back to home
             </Link>
