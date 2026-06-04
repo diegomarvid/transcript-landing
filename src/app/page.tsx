@@ -434,7 +434,7 @@ function OverlayPreview() {
           </div>
         </div>
 
-        <div className="relative min-h-[330px] overflow-hidden bg-[radial-gradient(circle_at_20%_14%,rgba(123,240,206,0.13),transparent_28%),linear-gradient(135deg,#11130f,#0d0f0c)] p-4 sm:p-6">
+        <div className="relative min-h-[330px] overflow-hidden bg-[radial-gradient(circle_at_20%_14%,rgba(123,240,206,0.13),transparent_28%),linear-gradient(135deg,#11130f,#0d0f0c)] p-3 sm:p-6">
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(255,255,255,0.035)_0,rgba(255,255,255,0.035)_1px,transparent_1px,transparent_74px)] opacity-45"
@@ -448,13 +448,19 @@ function OverlayPreview() {
               return (
                 <div
                   key={alert.label}
-                  className={`rounded-full border backdrop-blur-xl ${
+                  className={`border backdrop-blur-xl ${
                     isPrimary
-                      ? "border-white/10 bg-black/85 px-3 py-2.5 shadow-xl shadow-black/40"
-                      : "ml-8 border-white/[0.08] bg-black/45 px-3 py-2 opacity-75"
+                      ? "rounded-[28px] border-white/10 bg-black/85 px-4 py-4 shadow-xl shadow-black/40 sm:rounded-full sm:px-3 sm:py-2.5"
+                      : "ml-4 rounded-full border-white/[0.08] bg-black/45 px-3 py-2 opacity-75 sm:ml-8"
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-3">
+                  <div
+                    className={`flex gap-3 ${
+                      isPrimary
+                        ? "flex-col sm:flex-row sm:items-center sm:justify-between"
+                        : "items-center justify-between"
+                    }`}
+                  >
                     <div className="flex min-w-0 items-center gap-3">
                       <div
                         className={`flex shrink-0 items-center justify-center rounded-full border ${
@@ -470,16 +476,28 @@ function OverlayPreview() {
                         <p className={`text-[11px] font-semibold ${alert.accent}`}>
                           {alert.label}
                         </p>
-                        <p className="truncate text-sm font-semibold text-[#f5f7ef]">
+                        <p
+                          className={`text-sm font-semibold text-[#f5f7ef] ${
+                            isPrimary ? "sm:truncate" : "truncate"
+                          }`}
+                        >
                           {alert.title}
                         </p>
                         {isPrimary && (
-                          <p className="text-[11px] text-[#8d9286]">{alert.detail}</p>
+                          <p className="text-[11px] leading-4 text-[#8d9286]">
+                            {alert.detail}
+                          </p>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex shrink-0 gap-2">
+                    <div
+                      className={`flex shrink-0 gap-2 ${
+                        isPrimary
+                          ? "w-full flex-wrap justify-end sm:w-auto"
+                          : ""
+                      }`}
+                    >
                       {(isPrimary ? alert.actions : [alert.primaryAction]).map(
                         (action) => (
                           <span
@@ -729,23 +747,25 @@ Remote: Support needs the migration checklist before launch.`}
           </div>
         </section>
 
-        <section className="border-b border-white/10 py-20">
+        <section className="border-b border-white/10 py-14 sm:py-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
-            <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="mb-3 text-sm text-[#d9ff72]">How it works</p>
-                <h2 className="max-w-2xl text-3xl font-semibold sm:text-4xl">
+                <p className="mb-2 text-sm text-[#d9ff72] sm:mb-3">
+                  How it works
+                </p>
+                <h2 className="max-w-2xl text-2xl font-semibold sm:text-4xl">
                   From call audio to a recap you can use.
                 </h2>
               </div>
-              <p className="max-w-sm text-sm leading-7 text-[#aeb5a8]">
+              <p className="max-w-sm text-sm leading-6 text-[#aeb5a8] sm:leading-7">
                 Record once. Transcript handles the private middle: local
                 transcription, recap context, and tidy exports.
               </p>
             </div>
 
             <div className="overflow-hidden rounded-lg border border-white/10 bg-[#12150f] shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
-              <div className="flex items-center justify-between border-b border-white/10 bg-black/15 px-5 py-3">
+              <div className="flex items-center justify-between border-b border-white/10 bg-black/15 px-4 py-2.5 sm:px-5 sm:py-3">
                 <div className="flex items-center gap-2">
                   <span className="size-3 rounded-full bg-[#ff6b57]" />
                   <span className="size-3 rounded-full bg-[#f7c758]" />
@@ -763,9 +783,9 @@ Remote: Support needs the migration checklist before launch.`}
                   return (
                     <div
                       key={step.title}
-                      className="relative min-h-[255px] border-b border-white/10 p-6 last:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0"
+                      className="relative border-b border-white/10 p-4 last:border-b-0 sm:p-6 lg:min-h-[255px] lg:border-b-0 lg:border-r lg:last:border-r-0"
                     >
-                      <div className="mb-8 flex items-start justify-between gap-4">
+                      <div className="mb-4 flex items-start justify-between gap-4 lg:mb-8">
                         <span className="font-mono text-[12px] text-[#8d9286]">
                           0{index + 1}
                         </span>
@@ -774,10 +794,13 @@ Remote: Support needs the migration checklist before launch.`}
                         </span>
                       </div>
 
-                      <div className="mb-6 flex items-center">
+                      <div className="mb-4 flex items-center gap-3 lg:mb-6 lg:gap-0">
                         <div className="relative z-10 flex size-11 items-center justify-center rounded-lg border border-white/10 bg-[#191d14] text-[#d9ff72] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
                           <Icon aria-hidden="true" className="size-5" />
                         </div>
+                        <h3 className="text-lg font-semibold text-[#f5f7ef] lg:hidden">
+                          {step.title}
+                        </h3>
                         {index < workflow.length - 1 && (
                           <div
                             aria-hidden="true"
@@ -786,10 +809,10 @@ Remote: Support needs the migration checklist before launch.`}
                         )}
                       </div>
 
-                      <h3 className="mb-3 text-xl font-semibold text-[#f5f7ef]">
+                      <h3 className="mb-3 hidden text-xl font-semibold text-[#f5f7ef] lg:block">
                         {step.title}
                       </h3>
-                      <p className="text-sm leading-6 text-[#aeb5a8]">
+                      <p className="text-sm leading-6 text-[#aeb5a8] lg:leading-6">
                         {step.desc}
                       </p>
                     </div>
@@ -797,7 +820,7 @@ Remote: Support needs the migration checklist before launch.`}
                 })}
               </div>
 
-              <div className="border-t border-white/10 bg-black/20 px-5 py-4">
+              <div className="hidden border-t border-white/10 bg-black/20 px-5 py-4 sm:block">
                 <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] text-[#8d9286]">
                   {workflow.map((step, index) => (
                     <span key={step.output} className="flex items-center gap-2">
