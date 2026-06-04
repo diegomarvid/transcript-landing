@@ -4,35 +4,57 @@ import { getLatestRelease } from "@/lib/releases";
 
 const features = [
   {
-    title: "Records mic + system audio",
-    desc: "Start from the menu bar, let it capture the meeting, and keep the original recording on your Mac.",
+    title: "Works with any meeting app",
+    desc: "Google Meet, Zoom, Teams, Slack huddles, browser calls, screen shares, or any audio your Mac can hear.",
   },
   {
-    title: "Local Whisper transcription",
-    desc: "Use Whisper locally for private transcripts, then generate recaps with Codex, Gemini, OpenAI, or Claude.",
+    title: "No bot joins the room",
+    desc: "Transcript records from your Mac, so there is no extra meeting participant, calendar guest, or bot account.",
+  },
+  {
+    title: "Deep recaps with your agents",
+    desc: "Send structured meeting context to Codex or Claude Code using the accounts and tools you already use.",
+  },
+  {
+    title: "Local Whisper transcript",
+    desc: "Transcribe privately on-device with Whisper before any recap provider sees the text input.",
   },
   {
     title: "Speaker-aware recap input",
-    desc: "Optional Local, Remote and Overlap labels help recaps preserve who said what without saving extra audio.",
+    desc: "Optional Local, Remote, and Overlap hints help recaps preserve who said what without saving duplicate audio.",
   },
   {
     title: "Calendar context",
-    desc: "Read-only Google Calendar matching adds meeting title, attendees, and a local-speaker hint when available.",
+    desc: "Read-only Google Calendar matching adds title, attendees, and local-speaker clues when available.",
+  },
+];
+
+const connectors = [
+  ["Codex", "Recommended for complete meeting recaps with strong structure and follow-up extraction."],
+  ["Claude Code", "Use Claude.ai subscription auth for long-form synthesis and nuanced written notes."],
+  ["Gemini / OpenAI", "Bring API keys when you want direct model calls or audio-first Gemini processing."],
+  ["Bundled CLI", "Automate recording, transcribing, recap generation, export, tagging, and sharing."],
+];
+
+const proofPoints = [
+  {
+    value: "Any call",
+    label: "Meet, Zoom, Teams, browser audio, local video, or system sound.",
   },
   {
-    title: "CLI included",
-    desc: "The release app bundles the transcript CLI for recording, transcribing, recapping, exporting, and tagging.",
+    value: "No bot",
+    label: "Nothing joins the meeting, announces itself, or needs host approval.",
   },
   {
-    title: "Private by default",
-    desc: "Recordings, transcripts, metadata, prompts, and derived channel activity stay in your local data folder.",
+    value: "Your AI",
+    label: "Codex, Claude Code, Gemini, or OpenAI run through your own setup.",
   },
 ];
 
 const workflow = [
-  ["Record", "Menu bar or CLI captures the meeting audio."],
-  ["Transcribe", "Whisper writes a timestamped transcript locally."],
-  ["Recap", "Codex gets structured VTT input with compact speaker-aware cues."],
+  ["Capture", "Record mic plus system audio from whichever meeting app you use."],
+  ["Transcribe", "Whisper writes a timestamped local transcript first."],
+  ["Recap", "Codex or Claude Code gets compact, speaker-aware meeting context."],
   ["Organize", "Calendar metadata, tags, exports, and AI rename keep sessions findable."],
 ];
 
@@ -154,7 +176,7 @@ function ProductScene() {
               <div>
                 <p className="text-[11px] text-[#8d9286]">Generated recap</p>
                 <p className="mt-1 text-lg font-semibold text-[#f5f7ef]">
-                  Product sync with local labels
+                  Product sync recap
                 </p>
               </div>
               <div className="rounded-md border border-[#d9ff72]/20 px-3 py-1.5 font-mono text-[11px] text-[#ecffae]">
@@ -177,12 +199,12 @@ function ProductScene() {
               <div className="my-4 h-px bg-white/10" />
               <p className="text-[#f5f7ef]">## Action Items</p>
               <p>
-                1. Diego: validate speaker labels in the next recording and
-                keep the recap prompt unchanged.
+                1. Diego: confirm the GTM owner before Friday and send notes to
+                the team.
               </p>
               <p>
-                2. Transcript: store only derived channel power, never duplicate
-                audio for diarization.
+                2. Product: split follow-ups by customer risk, launch date, and
+                demo readiness.
               </p>
             </div>
           </div>
@@ -214,15 +236,15 @@ export default async function Home() {
               priority
             />
             <p className="mb-4 rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[13px] text-[#ecffae]">
-              macOS meeting recorder - {latestRelease.tag}
+              Meet, Zoom, Teams, and any Mac audio - {latestRelease.tag}
             </p>
             <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-7xl sm:leading-[1.02]">
-              Meeting notes that remember the room.
+              Complete meeting recaps without a bot in the room.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[#c3c8ba]">
-              Transcript records mic and system audio, transcribes locally with
-              Whisper, and builds structured recaps with optional Local, Remote,
-              and Overlap speaker hints.
+              Transcript records mic and system audio from any call, transcribes
+              locally with Whisper, then hands structured context to Codex,
+              Claude Code, Gemini, or OpenAI using your own setup.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
@@ -232,26 +254,73 @@ export default async function Home() {
                 Download for macOS
               </a>
               <Link
-                href="/privacy"
+                href="/changelog"
                 className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
               >
-                Read privacy policy
+                See what changed
               </Link>
             </div>
             <p className="mt-4 text-[13px] text-[#8d9286]">
-              Requires macOS 15.7 or later. The bundled CLI is included in the
-              release app.
+              Requires macOS 15.7 or later. No meeting bot, extension, or
+              platform-specific recorder required.
             </p>
           </div>
         </section>
 
         <section className="border-b border-white/10 bg-[#0d0f0c] py-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+              <div>
+                <p className="mb-3 text-sm text-[#d9ff72]">AI connectors</p>
+                <h2 className="text-3xl font-semibold sm:text-4xl">
+                  Use the agents you already trust.
+                </h2>
+                <p className="mt-5 text-sm leading-7 text-[#aeb5a8]">
+                  Transcript does not force a single recap backend. It prepares
+                  the transcript, calendar context, and speaker hints, then lets
+                  your Codex, Claude Code, Gemini, or OpenAI workflow produce
+                  the final notes.
+                </p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {connectors.map(([title, desc]) => (
+                  <div
+                    key={title}
+                    className="rounded-lg border border-white/10 bg-[#171a14] p-5"
+                  >
+                    <h3 className="mb-2 text-base font-semibold text-[#f5f7ef]">
+                      {title}
+                    </h3>
+                    <p className="text-sm leading-6 text-[#aeb5a8]">{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-white/10 py-20">
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="mb-10 max-w-2xl">
-              <p className="mb-3 text-sm text-[#d9ff72]">What changed</p>
+              <p className="mb-3 text-sm text-[#6ee7b7]">Why it matters</p>
               <h2 className="text-3xl font-semibold sm:text-4xl">
-                Built for private, repeatable meeting capture.
+                Capture anywhere. Keep the meeting private.
               </h2>
+            </div>
+            <div className="mb-6 grid gap-3 lg:grid-cols-3">
+              {proofPoints.map((point) => (
+                <div
+                  key={point.value}
+                  className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5"
+                >
+                  <p className="mb-2 text-2xl font-semibold text-[#e7fff5]">
+                    {point.value}
+                  </p>
+                  <p className="text-sm leading-6 text-[#aeb5a8]">
+                    {point.label}
+                  </p>
+                </div>
+              ))}
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((feature) => (
@@ -271,17 +340,18 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="border-b border-white/10 py-20">
+        <section className="border-b border-white/10 bg-[#0d0f0c] py-20">
           <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <p className="mb-3 text-sm text-[#f4c95d]">Recap pipeline</p>
               <h2 className="text-3xl font-semibold sm:text-4xl">
-                Small cues, clearer speakers.
+                Small cues, richer recaps.
               </h2>
               <p className="mt-5 text-sm leading-7 text-[#aeb5a8]">
                 Recap input is kept as structured WebVTT, but cues are split by
                 speaker label, duration, and size. Codex gets tighter context
-                without changing the visible transcript.
+                for summaries, decisions, objections, and owner-specific
+                follow-ups without changing the visible transcript.
               </p>
             </div>
             <div className="rounded-lg border border-white/10 bg-[#171a14] p-4">
@@ -307,7 +377,7 @@ Local: Interesting, actually.`}
           </div>
         </section>
 
-        <section className="border-b border-white/10 bg-[#0d0f0c] py-20">
+        <section className="border-b border-white/10 py-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="grid gap-3 lg:grid-cols-4">
               {workflow.map(([title, desc], index) => (

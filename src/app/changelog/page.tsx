@@ -21,15 +21,7 @@ function formatDate(value: string | null): string {
 }
 
 function ReleaseNotes({ notes }: { notes: string }) {
-  const lines = notes
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
-
-  const bullets = lines
-    .filter((line) => line.startsWith("- "))
-    .map((line) => line.slice(2));
-  const paragraphs = lines.filter((line) => !line.startsWith("- "));
+  const { bullets, paragraphs } = splitReleaseNotes(notes);
 
   return (
     <div className="space-y-3 text-sm leading-7 text-[#aeb5a8]">
@@ -43,6 +35,63 @@ function ReleaseNotes({ notes }: { notes: string }) {
           ))}
         </ul>
       )}
+    </div>
+  );
+}
+
+function splitReleaseNotes(notes: string) {
+  const lines = notes
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const bullets = lines
+    .filter((line) => line.startsWith("- "))
+    .map((line) => line.slice(2));
+  const paragraphs = lines.filter((line) => !line.startsWith("- "));
+
+  return { bullets, paragraphs };
+}
+
+function ReleaseRail({ releases }: { releases: Awaited<ReturnType<typeof getReleases>> }) {
+  return (
+    <div
+      data-release-rail
+      className="-mx-5 mt-10 overflow-x-auto px-5 pb-2 [scrollbar-color:#d9ff72_#171a14] sm:-mx-6 sm:px-6"
+    >
+      <div className="flex w-max snap-x snap-mandatory gap-3">
+        {releases.map((release, index) => {
+          const { bullets } = splitReleaseNotes(release.notes);
+          return (
+            <a
+              key={release.tag}
+              href={`#${release.tag}`}
+              className="w-[280px] snap-start rounded-lg border border-white/10 bg-[#171a14] p-4 transition hover:border-[#d9ff72]/35 sm:w-[330px]"
+            >
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-xl font-semibold">
+                    Transcript {release.version}
+                  </p>
+                  <p className="mt-1 text-[12px] text-[#8d9286]">
+                    {formatDate(release.publishedAt)}
+                  </p>
+                </div>
+                {index === 0 && (
+                  <span className="rounded-md bg-[#d9ff72]/10 px-2 py-1 text-[11px] font-medium text-[#ecffae]">
+                    Latest
+                  </span>
+                )}
+              </div>
+              <ul className="space-y-2 text-[13px] leading-5 text-[#aeb5a8]">
+                {bullets.slice(0, 3).map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
+            </a>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -63,8 +112,8 @@ export default async function Changelog() {
               Changelog
             </h1>
             <p className="mt-5 max-w-2xl break-words text-base leading-8 text-[#c3c8ba]">
-              Every Transcript app release lands here automatically. The release
-              script publishes the changelog feed next to the DMG and appcast.
+              Every Transcript release lands here automatically. Scroll across
+              recent versions, then open the full notes and DMG for each one.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -82,15 +131,27 @@ export default async function Changelog() {
                 Release feed
               </a>
             </div>
+            <ReleaseRail releases={releases} />
           </div>
         </section>
 
         <section className="py-16">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="mb-2 text-sm text-[#d9ff72]">Full release notes</p>
+                <h2 className="text-3xl font-semibold">Latest versions</h2>
+              </div>
+              <p className="max-w-md text-sm leading-6 text-[#8d9286]">
+                The release script keeps this list in sync with the public R2
+                feed used by the download route.
+              </p>
+            </div>
             <div className="space-y-4">
               {releases.map((release, index) => (
                 <article
                   key={release.tag}
+                  id={release.tag}
                   className="rounded-lg border border-white/10 bg-[#171a14] p-5 sm:p-7"
                 >
                   <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
