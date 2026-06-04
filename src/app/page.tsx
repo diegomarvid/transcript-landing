@@ -66,7 +66,7 @@ const connectors = [
 const valuePoints = [
   {
     value: "$50 once",
-    label: "One macOS license. No Transcript subscription.",
+    label: "Download the app, then activate one macOS user license.",
   },
   {
     value: "Whisper local",
@@ -130,7 +130,7 @@ const faqs = [
   {
     question: "How much does Transcript cost?",
     answer:
-      "Transcript is sold as a one-time $50 license for one macOS user. After that, the core flow can be effectively free if you already pay for Claude or ChatGPT: Whisper transcription runs locally at no extra cost, and recaps can use Claude Code or Codex through the subscription you already have instead of another monthly meeting-notes subscription.",
+      "Transcript is sold as a one-time $50 license for one macOS user. Download the macOS app first, then buy or activate a license from inside the app. After that, the core flow can be effectively free if you already pay for Claude or ChatGPT: Whisper transcription runs locally at no extra cost, and recaps can use Claude Code or Codex through the subscription you already have instead of another monthly meeting-notes subscription.",
   },
   {
     question: "Do I need an API key?",
@@ -197,7 +197,7 @@ function Nav() {
         </Link>
         <div className="flex items-center gap-4 text-[13px] text-[#b7baad] sm:gap-5">
           <Link
-            href="/buy"
+            href="/download"
             className="hidden rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[#ecffae] transition hover:border-[#d9ff72]/50 sm:inline-flex"
           >
             Download
@@ -558,21 +558,21 @@ export default async function Home() {
               </div>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href="/buy"
+                  href="/download"
                   className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
                 >
                   Download for macOS
                 </Link>
-                <a
-                  href="/download"
+                <Link
+                  href="#pricing"
                   className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
                 >
-                  Already bought? Get latest
-                </a>
+                  See pricing
+                </Link>
               </div>
               <p className="mt-4 text-[13px] text-[#8d9286]">
-                One-time {personalLicensePrice} license. Download starts after
-                checkout. Requires macOS 15.7 or later.
+                Requires macOS 15.7 or later. Activate a one-time{" "}
+                {personalLicensePrice} license inside the app.
               </p>
             </div>
 
@@ -627,7 +627,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="border-b border-white/10 py-16">
+        <section id="pricing" className="scroll-mt-20 border-b border-white/10 py-16">
           <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
               <p className="mb-3 text-sm text-[#6ee7b7]">Individual license</p>
@@ -635,10 +635,10 @@ export default async function Home() {
                 Pay once. Use the AI you already have.
               </h2>
               <Link
-                href="/buy"
+                href="/download"
                 className="mt-6 inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
               >
-                Download after checkout
+                Download and activate
               </Link>
             </div>
             <div className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5">
