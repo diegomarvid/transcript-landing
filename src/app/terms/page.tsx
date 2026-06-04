@@ -1,11 +1,13 @@
-import { Metadata } from "next";
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
 import { Footer, Nav } from "../page";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
+  path: "/terms",
   title: "Terms of Service - Transcript",
-  description: "Terms of Service for the Transcript macOS application.",
-};
+  description:
+    "Terms of Service for Transcript, the private macOS meeting recorder and AI recap app.",
+});
 
 export default function Terms() {
   return (

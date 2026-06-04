@@ -1,12 +1,14 @@
-import { Metadata } from "next";
 import Link from "next/link";
 import { appcastUrl, getReleases, releasesFeedUrl } from "@/lib/releases";
+import { createPageMetadata } from "@/lib/seo";
 import { Footer, Nav } from "../page";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
+  path: "/changelog",
   title: "Changelog - Transcript",
-  description: "Release notes and downloads for Transcript.",
-};
+  description:
+    "Release notes, appcast feed, and macOS downloads for Transcript private meeting recaps.",
+});
 
 function formatDate(value: string | null): string {
   if (!value) {

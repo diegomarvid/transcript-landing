@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import StructuredData from "@/components/StructuredData";
+import { sharedMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const plexSans = IBM_Plex_Sans({
-  variable: "--font-geist-sans",
+  variable: "--font-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -14,14 +16,7 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
-export const metadata: Metadata = {
-  title: "Transcript - Private Meeting Transcription for macOS",
-  description:
-    "Record meetings, transcribe locally with Whisper, and generate structured AI recaps from a macOS menu bar app and bundled CLI.",
-  icons: {
-    icon: "/favicon.png",
-  },
-};
+export const metadata: Metadata = sharedMetadata;
 
 export default function RootLayout({
   children,
@@ -33,6 +28,7 @@ export default function RootLayout({
       <body
         className={`${plexSans.variable} ${plexMono.variable} overflow-x-hidden antialiased`}
       >
+        <StructuredData />
         {children}
       </body>
     </html>

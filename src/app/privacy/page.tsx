@@ -1,11 +1,13 @@
-import { Metadata } from "next";
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
 import { Footer, Nav } from "../page";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
+  path: "/privacy",
   title: "Privacy Policy - Transcript",
-  description: "Privacy Policy for the Transcript macOS application.",
-};
+  description:
+    "Privacy Policy for Transcript, the private macOS meeting recorder and AI recap app.",
+});
 
 export default function Privacy() {
   return (

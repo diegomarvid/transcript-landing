@@ -1,6 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { getLatestRelease } from "@/lib/releases";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Transcript - Private AI meeting recaps for macOS",
+  description:
+    "Turn any Mac meeting into a polished recap with quotes, decisions, and action items. Record mic and system audio, transcribe locally with Whisper, and use your own AI setup.",
+  keywords: [
+    "meeting recaps",
+    "AI meeting notes",
+    "Mac meeting recorder",
+    "Whisper transcription",
+    "private meeting transcription",
+    "Codex meeting summaries",
+    "Claude Code meeting summaries",
+  ],
+});
 
 const features = [
   {
@@ -82,6 +104,76 @@ const workflow = [
   ["Organize", "Calendar metadata, tags, exports, and AI rename keep sessions findable."],
 ];
 
+const heroHighlights = [
+  {
+    label: "Private by default",
+    className: "border-[#7bf0ce]/35 bg-[#7bf0ce]/10 text-[#bdfbea]",
+  },
+  {
+    label: "Local Whisper",
+    className: "border-[#d9ff72]/35 bg-[#d9ff72]/10 text-[#ecffae]",
+  },
+  {
+    label: "Your AI setup",
+    className: "border-[#ff8a65]/35 bg-[#ff8a65]/10 text-[#ffc2ad]",
+  },
+];
+
+const faqs = [
+  {
+    question: "Does my meeting audio leave my Mac?",
+    answer:
+      "Not in local or hybrid modes. Transcript records locally and can transcribe with Whisper on-device. If you use Gemini audio processing or Managed AI, the relevant audio/text is sent to that provider. Business Private can be configured so Transcript servers never receive meeting content.",
+  },
+  {
+    question: "Can we use our company AI account instead of yours?",
+    answer:
+      "Yes. Users can bring their own Gemini or OpenAI key, use local Codex or Claude Code auth, or point Transcript at a company-controlled AI gateway. The gateway option keeps provider credentials off employee laptops.",
+  },
+  {
+    question: "Do all employees need to paste an API key?",
+    answer:
+      "They can for a small pilot, but it is not the recommended team setup. For larger teams, use a team config or company gateway so IT controls the model provider, credentials, and policy centrally.",
+  },
+  {
+    question: "Can Transcript publish recaps to Google Drive?",
+    answer:
+      "The app stores the full local archive first. Drive publishing is planned as a narrow integration for generated artifacts like recaps, transcripts, PDFs, and DOCX files. The goal is to use limited Drive access, not full Drive permissions.",
+  },
+  {
+    question: "What happens after the first year of updates?",
+    answer:
+      "One-time licenses keep working. The annual updates and support plan covers new app releases, macOS compatibility, provider changes, prompt/template improvements, and support.",
+  },
+  {
+    question: "Is there a Windows version?",
+    answer:
+      "Not yet. Transcript is macOS-first because reliable system audio capture and local Whisper performance are core to the product. A Windows version is on the roadmap for larger team deployments.",
+  },
+];
+
+function FAQPageSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 function Nav() {
   return (
     <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[#11130f]/85 backdrop-blur-xl">
@@ -158,10 +250,13 @@ function ProductScene() {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-x-0 bottom-0 top-16 hidden overflow-hidden opacity-75 sm:block"
+      className="relative hidden h-[600px] min-w-0 overflow-visible lg:block"
     >
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(17,19,15,0.2),rgba(17,19,15,0.78)_70%,#11130f)]" />
-      <div className="absolute left-1/2 top-10 h-[480px] w-[920px] -translate-x-1/2 rounded-[8px] border border-white/10 bg-[#181b16] shadow-2xl shadow-black/50 sm:top-14">
+      <div className="absolute -inset-x-20 inset-y-0 bg-[linear-gradient(to_bottom,rgba(17,19,15,0.04),rgba(17,19,15,0.7)_76%,#11130f)]" />
+      <div
+        data-product-scene-window
+        className="absolute left-0 top-8 h-[520px] w-[600px] rounded-[8px] border border-white/10 bg-[#181b16] opacity-90 shadow-2xl shadow-black/50 2xl:w-[760px]"
+      >
         <div className="flex h-9 items-center gap-2 border-b border-white/10 px-4">
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b55]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#ffca57]" />
@@ -170,7 +265,7 @@ function ProductScene() {
             23-03 - Recording Test
           </span>
         </div>
-        <div className="grid h-[calc(100%-36px)] grid-cols-[240px_1fr]">
+        <div className="grid h-[calc(100%-36px)] grid-cols-[194px_1fr] 2xl:grid-cols-[220px_1fr]">
           <aside className="border-r border-white/10 bg-[#12140f] p-4">
             {["Recording", "Transcribing", "Recap", "Export"].map((item, i) => (
               <div
@@ -185,56 +280,99 @@ function ProductScene() {
               </div>
             ))}
             <div className="mt-7 rounded-md border border-white/10 bg-black/20 p-3">
-              <p className="mb-2 text-[11px] uppercase text-[#8d9286]">
-                Channel activity
+              <p className="mb-3 text-[11px] uppercase text-[#8d9286]">
+                Recap sections
               </p>
-              <div className="space-y-2">
-                <div className="h-2 rounded bg-[#6ee7b7]/70" />
-                <div className="h-2 w-4/5 rounded bg-[#f4c95d]/80" />
-                <div className="h-2 w-2/3 rounded bg-[#ff8a65]/80" />
+              <div className="space-y-2 text-[11px] text-[#aeb5a8]">
+                {["Topics", "Key quotes", "Decisions", "Action items"].map(
+                  (item) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#d9ff72]" />
+                      {item}
+                    </div>
+                  ),
+                )}
               </div>
             </div>
           </aside>
           <div className="p-5">
-            <div className="mb-5 flex items-center justify-between">
+            <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-[11px] text-[#8d9286]">Generated recap</p>
                 <p className="mt-1 text-lg font-semibold text-[#f5f7ef]">
-                  Product sync recap
+                  Acme pilot rollout
                 </p>
               </div>
               <div className="rounded-md border border-[#d9ff72]/20 px-3 py-1.5 font-mono text-[11px] text-[#ecffae]">
                 Whisper + Codex
               </div>
             </div>
-            <div className="space-y-3 font-mono text-[12px] leading-6 text-[#c7cdbf]">
-              <p>
-                <span className="text-[#6ee7b7]">[00:06] Local:</span> Hi, I am
-                Diego. I want to check whether this marks me as local.
-              </p>
-              <p>
-                <span className="text-[#f4c95d]">[00:16] Remote:</span> This
-                simulation was built from thousands of real matches.
-              </p>
-              <p>
-                <span className="text-[#ff8a65]">[00:32] Overlap:</span> Both
-                sides are active, so keep the attribution tentative.
-              </p>
-              <div className="my-4 h-px bg-white/10" />
-              <p className="text-[#f5f7ef]">## Action Items</p>
-              <p>
-                1. Diego: confirm the GTM owner before Friday and send notes to
-                the team.
-              </p>
-              <p>
-                2. Product: split follow-ups by customer risk, launch date, and
-                demo readiness.
-              </p>
+            <div
+              data-product-recap-content
+              className="space-y-3 text-[12px] leading-5 text-[#c7cdbf]"
+            >
+              <section>
+                <h3 className="mb-1.5 text-[15px] font-semibold text-[#f5f7ef]">
+                  Topics
+                </h3>
+                <p>
+                  Acme wants private recaps for sales calls: share decisions and
+                  next steps without exposing raw audio outside GCP.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="mb-1.5 text-[15px] font-semibold text-[#f5f7ef]">
+                  Decisions
+                </h3>
+                <ul className="list-disc space-y-1 pl-4 marker:text-[#d9ff72]">
+                  <li>Start with 12 account managers for a two-week pilot.</li>
+                  <li>
+                    Publish recaps to Sales Drive; keep audio private by
+                    default.
+                  </li>
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="mb-1.5 text-[15px] font-semibold text-[#f5f7ef]">
+                  Key quotes
+                </h3>
+                <blockquote className="border-l-2 border-[#d9ff72]/55 pl-3 text-[#f5f7ef]">
+                  <p>
+                    &ldquo;If it lands in Drive before the next call, the team
+                    will use it.&rdquo;
+                  </p>
+                  <p className="mt-1 text-[#8d9286]">Sarah Chen, VP Sales</p>
+                </blockquote>
+                <blockquote className="mt-2 border-l-2 border-[#6ee7b7]/55 pl-3 text-[#f5f7ef]">
+                  <p>
+                    &ldquo;Model calls can stay inside your GCP gateway.&rdquo;
+                  </p>
+                  <p className="mt-1 text-[#8d9286]">Diego, product demo</p>
+                </blockquote>
+              </section>
+
+              <section>
+                <h3 className="mb-1.5 text-[15px] font-semibold text-[#f5f7ef]">
+                  Action items
+                </h3>
+                <ol className="list-decimal space-y-1 pl-4 marker:text-[#d9ff72]">
+                  <li>
+                    <span className="font-semibold text-[#f5f7ef]">Diego</span>:{" "}
+                    send gateway spec and pilot pricing by Friday.
+                  </li>
+                  <li>
+                    <span className="font-semibold text-[#f5f7ef]">Acme IT</span>:{" "}
+                    confirm GCP project and Drive folder policy.
+                  </li>
+                </ol>
+              </section>
             </div>
           </div>
         </div>
       </div>
-      <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(255,255,255,0.035)_0,rgba(255,255,255,0.035)_1px,transparent_1px,transparent_72px)]" />
+      <div className="absolute -inset-x-20 inset-y-0 bg-[repeating-linear-gradient(90deg,rgba(255,255,255,0.03)_0,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_72px)]" />
     </div>
   );
 }
@@ -248,46 +386,68 @@ export default async function Home() {
     <>
       <Nav />
       <main className="bg-[#11130f] pt-14 text-[#f5f7ef]">
-        <section className="relative min-h-[82vh] overflow-hidden border-b border-white/10">
-          <ProductScene />
-          <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-start px-5 pb-20 pt-24 sm:px-6 sm:pt-28">
-            <Image
-              src="/app-icon.png"
-              alt="Transcript app icon"
-              width={82}
-              height={82}
-              className="mb-8 rounded-[18px] shadow-xl shadow-black/30"
-              priority
-            />
-            <p className="mb-4 rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[13px] text-[#ecffae]">
-              Meet, Zoom, Teams, and any Mac audio - {latestRelease.tag}
-            </p>
-            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-7xl sm:leading-[1.02]">
-              Complete meeting recaps without a bot in the room.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#c3c8ba]">
-              Transcript records mic and system audio from any call, transcribes
-              locally with Whisper, then hands structured context to Codex,
-              Claude Code, Gemini, or OpenAI using your own setup.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="/download"
-                className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
-              >
-                Download for macOS
-              </a>
-              <Link
-                href="/changelog"
-                className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
-              >
-                See what changed
-              </Link>
+        <section className="relative overflow-hidden border-b border-white/10">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[linear-gradient(115deg,rgba(123,240,206,0.1)_0,transparent_22%),linear-gradient(245deg,rgba(255,138,101,0.12)_0,transparent_24%)]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#7bf0ce,#d9ff72,#ff8a65,#7ea6ff)]"
+          />
+          <div className="mx-auto grid min-h-[82vh] max-w-7xl items-center gap-10 px-5 pb-20 pt-20 sm:px-6 sm:pt-24 lg:grid-cols-[minmax(0,540px)_minmax(0,1fr)] lg:gap-12 lg:pb-10 lg:pt-6 xl:grid-cols-[minmax(0,600px)_minmax(0,1fr)]">
+            <div className="relative z-10 flex flex-col items-start">
+              <Image
+                src="/app-icon.png"
+                alt="Transcript app icon"
+                width={72}
+                height={72}
+                className="mb-6 rounded-[16px] shadow-xl shadow-black/30"
+                priority
+              />
+              <p className="mb-3 rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[13px] text-[#ecffae]">
+                Meet, Zoom, Teams, and any Mac audio - {latestRelease.tag}
+              </p>
+              <h1 className="max-w-[15ch] text-4xl font-semibold leading-[1.05] sm:text-7xl sm:leading-[1.02] lg:text-[60px] xl:text-[64px] 2xl:text-[72px]">
+                Private meeting recaps from your Mac.
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-[#c3c8ba] lg:max-w-[560px]">
+                Transcript records mic plus system audio from any call,
+                transcribes locally with Whisper, and turns the meeting into a
+                clean recap using Codex, Claude Code, Gemini, or OpenAI through
+                your own setup.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {heroHighlights.map((item) => (
+                  <span
+                    key={item.label}
+                    className={`rounded-md border px-3 py-1.5 text-[13px] font-medium ${item.className}`}
+                  >
+                    {item.label}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="/download"
+                  className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
+                >
+                  Download for macOS
+                </a>
+                <Link
+                  href="/changelog"
+                  className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
+                >
+                  See what changed
+                </Link>
+              </div>
+              <p className="mt-4 text-[13px] text-[#8d9286]">
+                Requires macOS 15.7 or later. No meeting bot, extension, or
+                platform-specific recorder required.
+              </p>
             </div>
-            <p className="mt-4 text-[13px] text-[#8d9286]">
-              Requires macOS 15.7 or later. No meeting bot, extension, or
-              platform-specific recorder required.
-            </p>
+
+            <ProductScene />
           </div>
         </section>
 
@@ -462,6 +622,35 @@ Local: Interesting, actually.`}
                 transcript recap latest
               </code>
             </div>
+          </div>
+        </section>
+
+        <section className="border-t border-white/10 bg-[#0d0f0c] py-20">
+          <FAQPageSchema />
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
+            <div className="mb-10 max-w-2xl">
+              <p className="mb-3 text-sm text-[#d9ff72]">FAQ</p>
+              <h2 className="text-3xl font-semibold sm:text-4xl">
+                The things teams ask before installing it.
+              </h2>
+            </div>
+
+            <Accordion className="flex max-w-3xl flex-col gap-3">
+              {faqs.map((faq, index) => (
+                <AccordionItem
+                  key={faq.question}
+                  value={`faq-${index}`}
+                  className="rounded-lg border border-white/10 bg-[#171a14] px-5 transition-colors data-open:border-[#d9ff72]/25 data-open:bg-[#1b2016]"
+                >
+                  <AccordionTrigger className="py-5 text-base font-semibold text-[#f5f7ef] hover:no-underline [&_[data-slot=accordion-trigger-icon]]:text-[#d9ff72]">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-5 pr-7 text-sm leading-7 text-[#aeb5a8]">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </section>
       </main>
