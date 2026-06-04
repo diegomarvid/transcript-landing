@@ -103,6 +103,16 @@ export default function Terms() {
             </section>
 
             <section>
+              <h2>License</h2>
+              <p>
+                A personal Transcript license is valid for one active Mac. You
+                may not share, resell, redistribute, or publish your license key.
+                If you replace your Mac, deactivate the old device first or
+                contact support for help moving the license.
+              </p>
+            </section>
+
+            <section>
               <h2>Disclaimer of Warranties</h2>
               <p>
                 Transcript is provided as is and as available, without

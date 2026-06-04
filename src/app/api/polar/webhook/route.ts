@@ -50,7 +50,6 @@ function createWebhookHandler(webhookSecret: string) {
         customerEmail: data.customer.email,
         benefitId: data.benefitId,
         licenseKeyId: license.licenseKeyId,
-        displayKey: license.displayKey,
       });
     },
     onBenefitGrantRevoked: async ({ data }) => {

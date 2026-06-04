@@ -1,10 +1,10 @@
 const r2BaseUrl = "https://pub-7d99cd07d4d741d296b2c69112c91153.r2.dev";
 const fallbackVersion = "1.0.50";
+export const minimumLicensedDownloadVersion = "1.0.51";
 
 export const releaseRevalidateSeconds = 300;
 export const releasesFeedUrl = `${r2BaseUrl}/releases.json`;
 export const appcastUrl = `${r2BaseUrl}/appcast.xml`;
-export const fallbackDownloadUrl = `${r2BaseUrl}/Transcript-${fallbackVersion}.dmg`;
 
 type ReleaseFeedItem = {
   version: string;
@@ -22,12 +22,62 @@ export type AppRelease = {
   title: string;
   notes: string;
   url: string | null;
-  downloadUrl: string;
+  downloadUrl?: string;
   publishedAt: string | null;
 };
 
+type DownloadableAppRelease = AppRelease & { downloadUrl: string };
+
+export class ReleaseUnavailableError extends Error {
+  constructor() {
+    super("Transcript download is not available right now.");
+    this.name = "ReleaseUnavailableError";
+  }
+}
+
 function r2DownloadUrl(version: string): string {
   return `${r2BaseUrl}/Transcript-${version}.dmg`;
+}
+
+function isExpectedR2DownloadUrl(downloadUrl: string, version: string): boolean {
+  try {
+    const parsed = new URL(downloadUrl);
+    const expected = new URL(r2DownloadUrl(version));
+    return parsed.origin === expected.origin && parsed.pathname === expected.pathname;
+  } catch {
+    return false;
+  }
+}
+
+function versionParts(version: string): number[] {
+  return version
+    .replace(/^v/i, "")
+    .split(".")
+    .map((part) => Number.parseInt(part, 10) || 0);
+}
+
+function isAtLeastVersion(version: string, minimum: string): boolean {
+  const current = versionParts(version);
+  const required = versionParts(minimum);
+  const length = Math.max(current.length, required.length);
+
+  for (let index = 0; index < length; index += 1) {
+    const currentPart = current[index] ?? 0;
+    const requiredPart = required[index] ?? 0;
+
+    if (currentPart > requiredPart) {
+      return true;
+    }
+    if (currentPart < requiredPart) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function isLicensedDownloadVersion(version: string): boolean {
+  return isAtLeastVersion(version, minimumLicensedDownloadVersion);
 }
 
 function normalizeNotes(notes: ReleaseFeedItem["notes"]): string {
@@ -49,7 +99,6 @@ function mapRelease(item: ReleaseFeedItem): AppRelease {
     title: item.title?.trim() || `Transcript ${version}`,
     notes: normalizeNotes(item.notes),
     url: item.url ?? null,
-    downloadUrl: item.downloadUrl?.trim() || r2DownloadUrl(version),
     publishedAt: item.publishedAt ?? null,
   };
 }
@@ -67,7 +116,7 @@ function firstMatch(value: string, pattern: RegExp): string | null {
   return value.match(pattern)?.[1]?.trim() ?? null;
 }
 
-function releaseFromAppcast(xml: string): AppRelease | null {
+function releaseFromAppcast(xml: string): DownloadableAppRelease | null {
   const item = xml.match(/<item>[\s\S]*?<\/item>/i)?.[0];
   if (!item) {
     return null;
@@ -95,19 +144,45 @@ function releaseFromAppcast(xml: string): AppRelease | null {
 }
 
 async function releasesFromAppcast(): Promise<AppRelease[]> {
+  const release = await latestReleaseFromAppcast();
+  return release ? [release] : [fallbackRelease()];
+}
+
+async function latestReleaseFromAppcast(): Promise<DownloadableAppRelease | null> {
   try {
     const response = await fetch(appcastUrl, {
       next: { revalidate: releaseRevalidateSeconds },
     });
 
     if (!response.ok) {
-      return [fallbackRelease()];
+      return null;
     }
 
-    const release = releaseFromAppcast(await response.text());
-    return release ? [release] : [fallbackRelease()];
+    return releaseFromAppcast(await response.text());
   } catch {
-    return [fallbackRelease()];
+    return null;
+  }
+}
+
+async function latestReleaseFromFeed(): Promise<AppRelease | null> {
+  try {
+    const response = await fetch(releasesFeedUrl, {
+      next: { revalidate: releaseRevalidateSeconds },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const releases = (await response.json()) as ReleaseFeedItem[];
+    if (!Array.isArray(releases)) {
+      return null;
+    }
+
+    const first = releases.find((release) => release.version);
+    return first ? mapRelease(first) : null;
+  } catch {
+    return null;
   }
 }
 
@@ -134,9 +209,25 @@ export async function getReleases(): Promise<AppRelease[]> {
   }
 }
 
-export async function getLatestRelease(): Promise<AppRelease> {
-  const releases = await getReleases();
-  return releases[0] ?? fallbackRelease();
+export async function getLatestRelease(): Promise<DownloadableAppRelease> {
+  const appcastLatest = await latestReleaseFromAppcast();
+  if (
+    appcastLatest?.downloadUrl &&
+    isLicensedDownloadVersion(appcastLatest.version) &&
+    isExpectedR2DownloadUrl(appcastLatest.downloadUrl, appcastLatest.version)
+  ) {
+    return appcastLatest;
+  }
+
+  const feedLatest = await latestReleaseFromFeed();
+  if (feedLatest && isLicensedDownloadVersion(feedLatest.version)) {
+    return {
+      ...feedLatest,
+      downloadUrl: r2DownloadUrl(feedLatest.version),
+    };
+  }
+
+  throw new ReleaseUnavailableError();
 }
 
 function fallbackRelease(): AppRelease {
@@ -146,7 +237,6 @@ function fallbackRelease(): AppRelease {
     title: `Transcript ${fallbackVersion}`,
     notes: "- Latest Transcript release",
     url: null,
-    downloadUrl: fallbackDownloadUrl,
     publishedAt: null,
   };
 }

@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { getLatestRelease } from "@/lib/releases";
+import { getLatestRelease, ReleaseUnavailableError } from "@/lib/releases";
 import { personalLicensePrice } from "@/lib/commerce";
 import { createPageMetadata, supportEmail } from "@/lib/seo";
 
@@ -66,7 +66,7 @@ const connectors = [
 const valuePoints = [
   {
     value: "$50 once",
-    label: "Download the app, then activate one macOS user license.",
+    label: "Download the app, then activate one Mac license.",
   },
   {
     value: "Whisper local",
@@ -130,7 +130,7 @@ const faqs = [
   {
     question: "How much does Transcript cost?",
     answer:
-      "Transcript is sold as a one-time $50 license for one macOS user. Download the macOS app first, then buy or activate a license from inside the app. After that, the core flow can be effectively free if you already pay for Claude or ChatGPT: Whisper transcription runs locally at no extra cost, and recaps can use Claude Code or Codex through the subscription you already have instead of another monthly meeting-notes subscription.",
+      "Transcript is sold as a one-time $50 license for one Mac. Download the macOS app first, then buy or activate a license from inside the app. After that, the core flow can be effectively free if you already pay for Claude or ChatGPT: Whisper transcription runs locally at no extra cost, and recaps can use Claude Code or Codex through the subscription you already have instead of another monthly meeting-notes subscription.",
   },
   {
     question: "Do I need an API key?",
@@ -508,8 +508,22 @@ function OverlayPreview() {
 
 export { Nav, Footer };
 
+async function getDownloadableRelease() {
+  try {
+    return await getLatestRelease();
+  } catch (error) {
+    if (error instanceof ReleaseUnavailableError) {
+      return null;
+    }
+
+    throw error;
+  }
+}
+
 export default async function Home() {
-  const latestRelease = await getLatestRelease();
+  const latestRelease = await getDownloadableRelease();
+  const downloadAvailable = latestRelease !== null;
+  const downloadHref = downloadAvailable ? "/download" : "#pricing";
 
   return (
     <>
@@ -535,7 +549,8 @@ export default async function Home() {
                 priority
               />
               <p className="mb-3 rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[13px] text-[#ecffae]">
-                Meet, Zoom, Teams, and any Mac audio - {latestRelease.tag}
+                Meet, Zoom, Teams, and any Mac audio
+                {latestRelease ? ` - ${latestRelease.tag}` : ""}
               </p>
               <h1 className="max-w-[15ch] text-4xl font-semibold leading-[1.05] sm:text-7xl sm:leading-[1.02] lg:text-[60px] xl:text-[64px] 2xl:text-[72px]">
                 Private meeting recaps from your Mac.
@@ -558,10 +573,12 @@ export default async function Home() {
               </div>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href="/download"
+                  href={downloadHref}
                   className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
                 >
-                  Download for macOS
+                  {downloadAvailable
+                    ? "Download for macOS"
+                    : "Licensed download coming soon"}
                 </Link>
                 <Link
                   href="#pricing"
@@ -635,10 +652,12 @@ export default async function Home() {
                 Pay once. Use the AI you already have.
               </h2>
               <Link
-                href="/download"
+                href={downloadHref}
                 className="mt-6 inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
               >
-                Download and activate
+                {downloadAvailable
+                  ? "Download and activate"
+                  : "Licensed download coming soon"}
               </Link>
             </div>
             <div className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5">

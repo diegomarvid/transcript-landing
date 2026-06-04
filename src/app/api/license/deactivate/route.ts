@@ -1,13 +1,23 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { assertLicenseConfig } from "@/lib/license/config";
-import { deactivatePolarLicense } from "@/lib/license/polar";
+import { deactivatePolarLicense, validatePolarLicense } from "@/lib/license/polar";
+import { checkLicenseRateLimit } from "@/lib/license/rate-limit";
 import { deactivateLicenseSchema } from "@/lib/license/schema";
-import { handleLicenseError, jsonError } from "@/lib/license/service";
+import {
+  assertActivationDeviceMatches,
+  handleLicenseError,
+  jsonError,
+} from "@/lib/license/service";
 
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
+    const rateLimitResponse = checkLicenseRateLimit(request, "deactivate");
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
+
     const body = await request.json().catch(() => null);
     const parsed = deactivateLicenseSchema.safeParse(body);
 
@@ -21,6 +31,15 @@ export async function POST(request: NextRequest) {
     }
 
     const config = assertLicenseConfig();
+    const snapshot = await validatePolarLicense({
+      accessToken: config.polarAccessToken,
+      organizationId: config.polarOrganizationId,
+      benefitId: config.polarBenefitId,
+      licenseKey: parsed.data.licenseKey,
+      activationId: parsed.data.activationId,
+    });
+    assertActivationDeviceMatches(snapshot, parsed.data.device);
+
     await deactivatePolarLicense({
       accessToken: config.polarAccessToken,
       organizationId: config.polarOrganizationId,

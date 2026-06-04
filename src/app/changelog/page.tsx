@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getReleases } from "@/lib/releases";
+import { getReleases, isLicensedDownloadVersion } from "@/lib/releases";
 import { createPageMetadata } from "@/lib/seo";
 import { Footer, Nav } from "../page";
 
@@ -7,7 +7,7 @@ export const metadata = createPageMetadata({
   path: "/changelog",
   title: "Changelog - Transcript",
   description:
-    "Release notes and macOS downloads for Transcript private meeting recaps.",
+    "Release notes for Transcript private meeting recaps.",
 });
 
 function formatDate(value: string | null): string {
@@ -114,17 +114,19 @@ export default async function Changelog() {
               Changelog
             </h1>
             <p className="mt-5 max-w-2xl break-words text-base leading-8 text-[#c3c8ba]">
-              See what changed in each Transcript release, then download the
-              latest macOS build when you are ready to update.
+              See what changed in each Transcript release. Downloads only open
+              for licensed macOS builds.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="/download"
-                className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
-              >
-                Download latest
-              </a>
-            </div>
+            {isLicensedDownloadVersion(releases[0]?.version ?? "") && (
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="/download"
+                  className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
+                >
+                  Download latest
+                </a>
+              </div>
+            )}
             <ReleaseRail releases={releases} />
           </div>
         </section>
@@ -137,8 +139,8 @@ export default async function Changelog() {
                 <h2 className="text-3xl font-semibold">Latest versions</h2>
               </div>
               <p className="max-w-md text-sm leading-6 text-[#8d9286]">
-                Each release includes the version, date, notes, and macOS
-                download.
+                Each release includes the version, date, and notes. Older DMGs
+                are not linked from the changelog.
               </p>
             </div>
             <div className="space-y-4">
@@ -165,12 +167,19 @@ export default async function Changelog() {
                       </p>
                     </div>
                     <div className="flex gap-2">
-                      <a
-                        href={release.downloadUrl}
-                        className="rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-2 text-[13px] font-medium text-[#ecffae] transition hover:border-[#d9ff72]/50"
-                      >
-                        DMG
-                      </a>
+                      {index === 0 &&
+                      isLicensedDownloadVersion(release.version) ? (
+                        <a
+                          href="/download"
+                          className="rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-2 text-[13px] font-medium text-[#ecffae] transition hover:border-[#d9ff72]/50"
+                        >
+                          Download latest
+                        </a>
+                      ) : (
+                        <span className="rounded-md border border-white/10 px-3 py-2 text-[13px] font-medium text-[#8d9286]">
+                          Archived notes
+                        </span>
+                      )}
                       {release.url && (
                         <a
                           href={release.url}

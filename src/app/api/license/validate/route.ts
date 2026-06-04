@@ -1,8 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { assertLicenseConfig } from "@/lib/license/config";
 import { validatePolarLicense } from "@/lib/license/polar";
+import { checkLicenseRateLimit } from "@/lib/license/rate-limit";
 import { validateLicenseSchema } from "@/lib/license/schema";
 import {
+  assertActivationDeviceMatches,
   createLicenseResponse,
   handleLicenseError,
   jsonError,
@@ -12,6 +14,11 @@ export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
+    const rateLimitResponse = checkLicenseRateLimit(request, "validate");
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
+
     const body = await request.json().catch(() => null);
     const parsed = validateLicenseSchema.safeParse(body);
 
@@ -32,6 +39,7 @@ export async function POST(request: NextRequest) {
       licenseKey: parsed.data.licenseKey,
       activationId: parsed.data.activationId,
     });
+    assertActivationDeviceMatches(snapshot, parsed.data.device);
 
     return NextResponse.json(
       createLicenseResponse(snapshot, parsed.data.device),

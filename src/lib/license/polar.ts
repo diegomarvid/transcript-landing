@@ -24,6 +24,7 @@ type RawPolarActivation = {
   id?: string;
   license_key_id?: string;
   licenseKeyId?: string;
+  meta?: Record<string, unknown> | null;
   license_key?: RawPolarLicenseKey;
   licenseKey?: RawPolarLicenseKey;
 };
@@ -33,6 +34,7 @@ type RawPolarValidatedLicense = RawPolarLicenseKey & {
     id?: string;
     license_key_id?: string;
     licenseKeyId?: string;
+    meta?: Record<string, unknown> | null;
   } | null;
 };
 
@@ -45,6 +47,7 @@ export type PolarLicenseSnapshot = {
   benefitId: string;
   status: "granted";
   activationLimit: number | null;
+  activationMeta: Record<string, unknown> | null;
 };
 
 export type ActivateLicenseInput = {
@@ -216,7 +219,7 @@ function snapshotFromActivation(data: RawPolarActivation): PolarLicenseSnapshot 
     throw new PolarLicenseError("polar_error", 502, data);
   }
 
-  return snapshotFromLicense(license, activationId);
+  return snapshotFromLicense(license, activationId, data.meta ?? null);
 }
 
 function snapshotFromValidatedLicense(
@@ -224,12 +227,13 @@ function snapshotFromValidatedLicense(
   fallbackActivationId: string,
 ): PolarLicenseSnapshot {
   const activationId = data.activation?.id ?? fallbackActivationId;
-  return snapshotFromLicense(data, activationId);
+  return snapshotFromLicense(data, activationId, data.activation?.meta ?? null);
 }
 
 function snapshotFromLicense(
   license: RawPolarLicenseKey,
   activationId: string,
+  activationMeta: Record<string, unknown> | null,
 ): PolarLicenseSnapshot {
   const status = license.status;
 
@@ -263,6 +267,7 @@ function snapshotFromLicense(
     ),
     status,
     activationLimit: license.limit_activations ?? license.limitActivations ?? null,
+    activationMeta,
   };
 }
 

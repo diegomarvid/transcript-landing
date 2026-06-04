@@ -4,6 +4,7 @@ export const transcriptLicense = {
   keyId: "transcript-license-v1",
   plan: "personal",
   features: ["record", "transcribe", "recap", "cli"] as const,
+  requiredActivationLimit: 1,
   offlineDays: 14,
 };
 

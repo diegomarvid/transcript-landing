@@ -96,7 +96,7 @@ The backend deactivates this Mac in Polar.
     "activationId": "polar-activation-id",
     "customerId": "polar-customer-id",
     "customerEmail": "customer@example.com",
-    "activationLimit": 2,
+    "activationLimit": 1,
     "offlineUntil": "2026-06-18T00:00:00.000Z"
   },
   "entitlement": {
@@ -163,8 +163,10 @@ Stable error codes:
 
 ## V1 Policy
 
-- One license key is for one macOS user.
-- Polar activation limit is currently 2 devices.
+- One license key is for one Mac.
+- Polar activation limit must be exactly 1 device.
+- The backend refuses to sign an entitlement if Polar returns any other
+  activation limit, including `null`.
 - Entitlements are valid offline for 14 days.
 - No login is required.
 - No Transcript database is required yet; Polar is the source of truth.

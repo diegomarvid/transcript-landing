@@ -35,6 +35,9 @@ export function createLicenseResponse(
   device: LicenseDevice,
 ): LicenseApiResponse {
   const config = assertLicenseConfig();
+  assertLicenseBenefitMatches(snapshot, config.polarBenefitId);
+  assertSingleMacActivationLimit(snapshot);
+
   const now = new Date();
   const offlineUntil = addDays(now, transcriptLicense.offlineDays).toISOString();
   const payload: LicenseEntitlementPayload = {
@@ -76,6 +79,51 @@ export function createLicenseResponse(
       config.signingPrivateKeyBase64,
     ),
   };
+}
+
+export function assertLicenseBenefitMatches(
+  snapshot: PolarLicenseSnapshot,
+  benefitId: string,
+) {
+  if (snapshot.benefitId === benefitId) {
+    return;
+  }
+
+  throw new PolarLicenseError("invalid_license", 403, {
+    reason: "license_benefit_mismatch",
+  });
+}
+
+export function assertSingleMacActivationLimit(snapshot: PolarLicenseSnapshot) {
+  if (snapshot.activationLimit === transcriptLicense.requiredActivationLimit) {
+    return;
+  }
+
+  console.error("license.activation_limit_misconfigured", {
+    licenseId: snapshot.licenseId,
+    activationLimit: snapshot.activationLimit,
+    requiredActivationLimit: transcriptLicense.requiredActivationLimit,
+  });
+
+  throw new PolarLicenseError("polar_error", 502, {
+    reason: "activation_limit_misconfigured",
+  });
+}
+
+export function assertActivationDeviceMatches(
+  snapshot: PolarLicenseSnapshot,
+  device: LicenseDevice,
+) {
+  const activationDeviceId = snapshot.activationMeta?.device_id;
+
+  if (activationDeviceId === device.id) {
+    return;
+  }
+
+  throw new PolarLicenseError("invalid_license", 403, {
+    reason: "activation_device_mismatch",
+    hasActivationDeviceId: typeof activationDeviceId === "string",
+  });
 }
 
 export function deviceLabel(device: LicenseDevice) {
@@ -123,7 +171,7 @@ export function handleLicenseError(error: unknown) {
     console.warn("license.polar_error", {
       code: error.code,
       status: error.status,
-      detail: error.detail,
+      hasDetail: error.detail != null,
     });
 
     return jsonError(error.code, messageForCode(error.code), status);

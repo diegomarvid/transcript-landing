@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { assertLicenseConfig } from "@/lib/license/config";
 import { activatePolarLicense } from "@/lib/license/polar";
+import { checkLicenseRateLimit } from "@/lib/license/rate-limit";
 import { activateLicenseSchema } from "@/lib/license/schema";
 import {
   createLicenseResponse,
@@ -14,6 +15,11 @@ export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
+    const rateLimitResponse = checkLicenseRateLimit(request, "activate");
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
+
     const body = await request.json().catch(() => null);
     const parsed = activateLicenseSchema.safeParse(body);
 
