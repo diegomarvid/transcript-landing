@@ -30,10 +30,34 @@ const features = [
 ];
 
 const connectors = [
-  ["Codex", "Recommended for complete meeting recaps with strong structure and follow-up extraction."],
-  ["Claude Code", "Use Claude.ai subscription auth for long-form synthesis and nuanced written notes."],
-  ["Gemini / OpenAI", "Bring API keys when you want direct model calls or audio-first Gemini processing."],
-  ["Bundled CLI", "Automate recording, transcribing, recap generation, export, tagging, and sharing."],
+  {
+    title: "Codex",
+    desc: "Recommended for complete meeting recaps with strong structure and follow-up extraction.",
+    logo: "/provider-codex.png",
+    logoAlt: "Codex",
+    accent: "border-[#7ea6ff]/25 bg-[#7ea6ff]/10",
+  },
+  {
+    title: "Claude Code",
+    desc: "Use Claude.ai subscription auth for long-form synthesis and nuanced written notes.",
+    logo: "/provider-claude.png",
+    logoAlt: "Claude",
+    accent: "border-[#d97757]/25 bg-[#d97757]/10",
+  },
+  {
+    title: "Gemini",
+    desc: "Bring a Gemini key when you want direct model calls or audio-first Gemini processing.",
+    logo: "/provider-gemini.png",
+    logoAlt: "Gemini",
+    accent: "border-[#7bf0ce]/25 bg-[#7bf0ce]/10",
+  },
+  {
+    title: "OpenAI",
+    desc: "Use OpenAI models directly when you want API-key based recap generation.",
+    logo: "/provider-openai.png",
+    logoAlt: "OpenAI",
+    accent: "border-white/15 bg-white/10",
+  },
 ];
 
 const proofPoints = [
@@ -283,15 +307,30 @@ export default async function Home() {
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                {connectors.map(([title, desc]) => (
+                {connectors.map((connector) => (
                   <div
-                    key={title}
+                    key={connector.title}
                     className="rounded-lg border border-white/10 bg-[#171a14] p-5"
                   >
-                    <h3 className="mb-2 text-base font-semibold text-[#f5f7ef]">
-                      {title}
-                    </h3>
-                    <p className="text-sm leading-6 text-[#aeb5a8]">{desc}</p>
+                    <div className="mb-4 flex items-center gap-3">
+                      <div
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border ${connector.accent}`}
+                      >
+                        <Image
+                          src={connector.logo}
+                          alt={connector.logoAlt}
+                          width={30}
+                          height={30}
+                          className="rounded-md"
+                        />
+                      </div>
+                      <h3 className="text-base font-semibold text-[#f5f7ef]">
+                        {connector.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm leading-6 text-[#aeb5a8]">
+                      {connector.desc}
+                    </p>
                   </div>
                 ))}
               </div>
