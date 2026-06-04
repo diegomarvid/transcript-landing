@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const siteUrl = "https://transcriptprivate.com";
 export const siteName = "Transcript";
+export const supportEmail = "support@transcriptprivate.com";
 
 export const defaultDescription =
   "Private macOS meeting recorder that captures mic and system audio, transcribes locally with Whisper, and turns calls into polished AI recaps.";

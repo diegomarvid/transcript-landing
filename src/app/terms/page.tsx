@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, supportEmail } from "@/lib/seo";
 import { Footer, Nav } from "../page";
 
 export const metadata = createPageMetadata({
@@ -137,9 +137,7 @@ export default function Terms() {
               <h2>Contact</h2>
               <p>
                 If you have questions about these Terms, contact{" "}
-                <a href="mailto:diegomarvid99@gmail.com">
-                  diegomarvid99@gmail.com
-                </a>
+                <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
                 .
               </p>
             </section>

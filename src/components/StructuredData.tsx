@@ -1,4 +1,10 @@
-import { absoluteUrl, defaultDescription, siteName, siteUrl } from "@/lib/seo";
+import {
+  absoluteUrl,
+  defaultDescription,
+  siteName,
+  siteUrl,
+  supportEmail,
+} from "@/lib/seo";
 
 export function OrganizationSchema() {
   const schema = {
@@ -10,7 +16,8 @@ export function OrganizationSchema() {
     description: defaultDescription,
     contactPoint: {
       "@type": "ContactPoint",
-      contactType: "sales",
+      contactType: "customer support",
+      email: supportEmail,
       availableLanguage: ["English", "Spanish"],
     },
     areaServed: {
