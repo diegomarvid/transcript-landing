@@ -1,6 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, Download, KeyRound, Mail } from "lucide-react";
+import {
+  CheckCircle2,
+  Copy,
+  Download,
+  KeyRound,
+  Mail,
+  MousePointerClick,
+} from "lucide-react";
 import { Footer, Nav } from "@/app/page";
 import { personalLicenseLabel } from "@/lib/commerce";
 import { createPageMetadata, supportEmail } from "@/lib/seo";
@@ -9,7 +16,7 @@ export const metadata = createPageMetadata({
   path: "/purchase/success",
   title: "Transcript purchase complete",
   description:
-    "Download Transcript for macOS and keep your Polar license key for activation and updates.",
+    "Download Transcript for macOS, open your Polar purchase email, and copy your license key for activation.",
 });
 
 type PurchaseSuccessProps = {
@@ -40,7 +47,7 @@ export default async function PurchaseSuccess({
           />
 
           <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:py-28">
-            <div>
+            <div className="min-w-0">
               <Image
                 src="/app-icon.png"
                 alt="Transcript app icon"
@@ -54,16 +61,17 @@ export default async function PurchaseSuccess({
                 Purchase complete
               </p>
               <h1 className="max-w-[14ch] text-4xl font-semibold leading-[1.05] sm:text-6xl">
-                Transcript is ready for your Mac.
+                Copy your license key from Polar.
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-7 text-[#c3c8ba]">
-                Your {personalLicenseLabel} is tied to the license key in your
-                Polar receipt. Keep that email handy for activation and future
-                updates.
+              <p className="mt-5 max-w-xl break-words text-base leading-7 text-[#c3c8ba]">
+                Your {personalLicenseLabel} is ready. Download Transcript, then
+                open the order confirmation email from Polar. Click{" "}
+                <strong>Access purchase</strong> in that email to view and copy
+                your Transcript license key.
               </p>
 
               {checkoutId ? (
-                <p className="mt-4 inline-flex max-w-full rounded-md border border-white/10 bg-black/25 px-3 py-2 font-mono text-[12px] text-[#8d9286]">
+                <p className="mt-4 inline-block max-w-full break-all rounded-md border border-white/10 bg-black/25 px-3 py-2 font-mono text-[12px] text-[#8d9286]">
                   Checkout {checkoutId}
                 </p>
               ) : null}
@@ -71,14 +79,14 @@ export default async function PurchaseSuccess({
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="/download"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae] sm:w-auto"
                 >
                   <Download aria-hidden="true" className="size-4" />
                   Download for macOS
                 </a>
                 <a
                   href={`mailto:${supportEmail}`}
-                  className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35 sm:w-auto"
                 >
                   <Mail aria-hidden="true" className="size-4" />
                   Contact support
@@ -86,24 +94,32 @@ export default async function PurchaseSuccess({
               </div>
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-[#171a14] p-4 shadow-2xl shadow-black/30">
+            <div className="min-w-0 rounded-lg border border-white/10 bg-[#171a14] p-4 shadow-2xl shadow-black/30">
               <div className="rounded-md border border-white/10 bg-black/20 p-5">
                 <p className="mb-4 font-mono text-[12px] text-[#8d9286]">
-                  next steps
+                  how to activate
                 </p>
                 <div className="grid gap-3">
                   {[
                     {
-                      title: "Save the Polar receipt",
-                      body: "Polar sends the license key and payment receipt to the email used at checkout.",
+                      title: "Open the Polar email",
+                      body: "Look for the Transcript order confirmation at the email used at checkout.",
+                      icon: Mail,
                     },
                     {
-                      title: "Install the latest build",
-                      body: "Download Transcript for macOS, then open it from your Applications folder.",
+                      title: "Click Access purchase",
+                      body: "The email does not show the key directly. The button opens your Polar purchase page.",
+                      icon: MousePointerClick,
                     },
                     {
-                      title: "Keep the key for activation",
-                      body: "The same key is used for license activation, device management, and future updates.",
+                      title: "Copy the license key",
+                      body: "Copy the Transcript macOS license key shown under Benefit Grants.",
+                      icon: Copy,
+                    },
+                    {
+                      title: "Paste it in Transcript",
+                      body: "Open the app, choose Activate License, and paste the key when prompted.",
+                      icon: KeyRound,
                     },
                   ].map((item, index) => (
                     <div
@@ -111,17 +127,13 @@ export default async function PurchaseSuccess({
                       className="grid gap-3 rounded-lg border border-white/10 bg-[#11130f] p-4 sm:grid-cols-[38px_1fr]"
                     >
                       <div className="flex size-9 items-center justify-center rounded-full border border-[#d9ff72]/25 bg-[#d9ff72]/10 text-sm font-semibold text-[#ecffae]">
-                        {index === 2 ? (
-                          <KeyRound aria-hidden="true" className="size-4" />
-                        ) : (
-                          `0${index + 1}`
-                        )}
+                        <item.icon aria-hidden="true" className="size-4" />
                       </div>
                       <div>
                         <h2 className="text-base font-semibold text-[#f5f7ef]">
-                          {item.title}
+                          {`0${index + 1}. ${item.title}`}
                         </h2>
-                        <p className="mt-1 text-sm leading-6 text-[#aeb5a8]">
+                        <p className="mt-1 break-words text-sm leading-6 text-[#aeb5a8]">
                           {item.body}
                         </p>
                       </div>
@@ -131,8 +143,8 @@ export default async function PurchaseSuccess({
               </div>
 
               <p className="mt-4 text-sm leading-6 text-[#8d9286]">
-                If the receipt does not arrive in a few minutes, check spam or
-                email{" "}
+                If the Polar email does not arrive in a few minutes, check spam
+                or email{" "}
                 <a
                   href={`mailto:${supportEmail}`}
                   className="text-[#d9ff72] hover:text-[#ecffae]"
@@ -148,9 +160,11 @@ export default async function PurchaseSuccess({
         <section className="bg-[#0d0f0c] py-14">
           <div className="mx-auto max-w-6xl px-5 text-sm leading-7 text-[#aeb5a8] sm:px-6">
             <p>
-              Bought by mistake or need the license moved to another email?
-              Reply to the Polar receipt or contact support and include your
-              checkout ID.
+              The email receipt and the license key are separate: the receipt
+              confirms the purchase, and the <strong>Access purchase</strong>{" "}
+              button opens the Polar page where the key can be copied. Bought by
+              mistake or need the license moved to another email? Contact
+              support and include your checkout ID.
             </p>
             <Link
               href="/"
