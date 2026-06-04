@@ -1,6 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  AudioLines,
+  Calendar,
+  Clock,
+  FileText,
+  FolderCheck,
+  ListChecks,
+  Mic,
+  Video,
+  X,
+} from "lucide-react";
+import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -23,33 +34,6 @@ export const metadata = createPageMetadata({
     "Claude Code meeting summaries",
   ],
 });
-
-const features = [
-  {
-    title: "Works with any meeting app",
-    desc: "Google Meet, Zoom, Teams, Slack huddles, browser calls, screen shares, or any audio your Mac can hear.",
-  },
-  {
-    title: "No bot joins the room",
-    desc: "Transcript records from your Mac, so there is no extra meeting participant, calendar guest, or bot account.",
-  },
-  {
-    title: "Deep recaps with your agents",
-    desc: "Send structured meeting context to Codex or Claude Code using the accounts and tools you already use.",
-  },
-  {
-    title: "Local Whisper transcript",
-    desc: "Transcribe privately on-device with Whisper before any recap provider sees the text input.",
-  },
-  {
-    title: "Speaker-aware recap input",
-    desc: "Optional Local, Remote, and Overlap hints help recaps preserve who said what without saving duplicate audio.",
-  },
-  {
-    title: "Calendar context",
-    desc: "Read-only Google Calendar matching adds title, attendees, and local-speaker clues when available.",
-  },
-];
 
 const connectors = [
   {
@@ -82,26 +66,79 @@ const connectors = [
   },
 ];
 
-const proofPoints = [
+const valuePoints = [
   {
-    value: "Any call",
-    label: "Meet, Zoom, Teams, browser audio, local video, or system sound.",
+    value: "$50 once",
+    label: "One macOS license. No Transcript subscription.",
   },
   {
-    value: "No bot",
-    label: "Nothing joins the meeting, announces itself, or needs host approval.",
+    value: "Whisper local",
+    label: "Transcribe without a metered cloud transcription bill.",
   },
   {
-    value: "Your AI",
-    label: "Codex, Claude Code, Gemini, or OpenAI run through your own setup.",
+    value: "Claude or ChatGPT",
+    label: "Connects to Claude Code or Codex with the subscription you already have.",
   },
 ];
 
 const workflow = [
-  ["Capture", "Record mic plus system audio from whichever meeting app you use."],
-  ["Transcribe", "Whisper writes a timestamped local transcript first."],
-  ["Recap", "Codex or Claude Code gets compact, speaker-aware meeting context."],
-  ["Organize", "Calendar metadata, tags, exports, and AI rename keep sessions findable."],
+  {
+    title: "Capture",
+    desc: "Record mic plus system audio from whichever call is live.",
+    output: "call.m4a",
+    icon: AudioLines,
+  },
+  {
+    title: "Transcribe",
+    desc: "Whisper writes a timestamped transcript on your Mac.",
+    output: "transcript.vtt",
+    icon: FileText,
+  },
+  {
+    title: "Recap",
+    desc: "Codex or Claude Code turns quotes, decisions, and follow-ups into notes.",
+    output: "recap.md",
+    icon: ListChecks,
+  },
+  {
+    title: "Organize",
+    desc: "Calendar context, AI names, tags, and exports keep it findable.",
+    output: "session folder",
+    icon: FolderCheck,
+  },
+];
+
+const overlayAlerts = [
+  {
+    label: "Meeting started",
+    title: "Weekly product sync",
+    detail: "You have not joined yet",
+    icon: Video,
+    accent: "text-[#7bf0ce]",
+    iconBg: "bg-[#7bf0ce]/12 border-[#7bf0ce]/25",
+    actions: ["Skip meeting", "Later", "Join"],
+    primaryAction: "Join",
+  },
+  {
+    label: "Meeting starting",
+    title: "Customer check-in",
+    detail: "Starts in 4 minutes",
+    icon: Calendar,
+    accent: "text-[#f4c95d]",
+    iconBg: "bg-[#f4c95d]/12 border-[#f4c95d]/25",
+    actions: ["Skip meeting", "Later", "Join"],
+    primaryAction: "Join",
+  },
+  {
+    label: "Call audio detected",
+    title: "Start recording?",
+    detail: "Mic and system audio are active",
+    icon: Mic,
+    accent: "text-[#ff8a65]",
+    iconBg: "bg-[#ff8a65]/12 border-[#ff8a65]/25",
+    actions: ["Skip", "Later", "Record"],
+    primaryAction: "Record",
+  },
 ];
 
 const heroHighlights = [
@@ -121,34 +158,34 @@ const heroHighlights = [
 
 const faqs = [
   {
-    question: "Does my meeting audio leave my Mac?",
+    question: "How much does Transcript cost?",
     answer:
-      "Not in local or hybrid modes. Transcript records locally and can transcribe with Whisper on-device. If you use Gemini audio processing or Managed AI, the relevant audio/text is sent to that provider. Business Private can be configured so Transcript servers never receive meeting content.",
+      "Transcript is sold as a one-time $50 license for one macOS user. After that, the core flow can be effectively free if you already pay for Claude or ChatGPT: Whisper transcription runs locally at no extra cost, and recaps can use Claude Code or Codex through the subscription you already have instead of another monthly meeting-notes subscription.",
   },
   {
-    question: "Can we use our company AI account instead of yours?",
+    question: "Do I need an API key?",
     answer:
-      "Yes. Users can bring their own Gemini or OpenAI key, use local Codex or Claude Code auth, or point Transcript at a company-controlled AI gateway. The gateway option keeps provider credentials off employee laptops.",
+      "Not if you use Codex or Claude Code through your existing ChatGPT or Claude subscription. If you prefer direct model calls through Gemini or OpenAI, you can paste your own API key and keep that usage under your account.",
   },
   {
-    question: "Do all employees need to paste an API key?",
+    question: "Does it work with Meet, Zoom, and Teams?",
     answer:
-      "They can for a small pilot, but it is not the recommended team setup. For larger teams, use a team config or company gateway so IT controls the model provider, credentials, and policy centrally.",
+      "Yes. Transcript records microphone plus system audio from your Mac, so it works with Google Meet, Zoom, Teams, Slack huddles, browser calls, local videos, and anything else your Mac can play.",
   },
   {
-    question: "Can Transcript publish recaps to Google Drive?",
+    question: "Does my meeting audio stay private?",
     answer:
-      "The app stores the full local archive first. Drive publishing is planned as a narrow integration for generated artifacts like recaps, transcripts, PDFs, and DOCX files. The goal is to use limited Drive access, not full Drive permissions.",
+      "Recordings are saved locally on your Mac. Whisper transcription can run on-device. When you generate a recap with an AI provider, the relevant transcript or prompt is sent directly from your Mac to the provider you chose; Transcript does not need a backend to process your meetings.",
   },
   {
-    question: "What happens after the first year of updates?",
+    question: "What do I get after recording a meeting?",
     answer:
-      "One-time licenses keep working. The annual updates and support plan covers new app releases, macOS compatibility, provider changes, prompt/template improvements, and support.",
+      "You get a local recording, a Whisper transcript, and an AI recap with the useful parts pulled out: topics, key quotes, decisions, and action items. The app also keeps sessions organized with calendar context, tags, exports, and AI-generated names.",
   },
   {
-    question: "Is there a Windows version?",
+    question: "Can I use it without a meeting bot?",
     answer:
-      "Not yet. Transcript is macOS-first because reliable system audio capture and local Whisper performance are core to the product. A Windows version is on the roadmap for larger team deployments.",
+      "Yes. Nothing joins the meeting, asks for host permission, or appears as an extra participant. Transcript records from your Mac, which is why it works across meeting apps without browser extensions or platform-specific setup.",
   },
 ];
 
@@ -377,6 +414,104 @@ function ProductScene() {
   );
 }
 
+function OverlayPreview() {
+  return (
+    <div
+      data-overlay-preview
+      className="relative overflow-hidden rounded-lg border border-white/10 bg-[#0b0d0a] p-3 shadow-2xl shadow-black/40"
+    >
+      <div className="overflow-hidden rounded-[10px] border border-white/10 bg-[#11130f]">
+        <div className="flex h-9 items-center justify-between border-b border-white/10 bg-black/25 px-4">
+          <div className="flex items-center gap-2 text-[11px] text-[#8d9286]">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b55]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ffca57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#78df78]" />
+            <span className="ml-3">Transcript overlays</span>
+          </div>
+          <div className="flex items-center gap-2 font-mono text-[11px] text-[#8d9286]">
+            <Clock aria-hidden="true" className="size-3.5" />
+            09:56
+          </div>
+        </div>
+
+        <div className="relative min-h-[330px] overflow-hidden bg-[radial-gradient(circle_at_20%_14%,rgba(123,240,206,0.13),transparent_28%),linear-gradient(135deg,#11130f,#0d0f0c)] p-4 sm:p-6">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(255,255,255,0.035)_0,rgba(255,255,255,0.035)_1px,transparent_1px,transparent_74px)] opacity-45"
+          />
+
+          <div className="relative flex flex-col gap-3 pt-3">
+            {overlayAlerts.map((alert, index) => {
+              const Icon = alert.icon;
+              const isPrimary = index === 0;
+
+              return (
+                <div
+                  key={alert.label}
+                  className={`rounded-full border backdrop-blur-xl ${
+                    isPrimary
+                      ? "border-white/10 bg-black/85 px-3 py-2.5 shadow-xl shadow-black/40"
+                      : "ml-8 border-white/[0.08] bg-black/45 px-3 py-2 opacity-75"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div
+                        className={`flex shrink-0 items-center justify-center rounded-full border ${
+                          isPrimary ? "size-9" : "size-8"
+                        } ${alert.iconBg}`}
+                      >
+                        <Icon
+                          aria-hidden="true"
+                          className={`${isPrimary ? "size-4.5" : "size-4"} ${alert.accent}`}
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className={`text-[11px] font-semibold ${alert.accent}`}>
+                          {alert.label}
+                        </p>
+                        <p className="truncate text-sm font-semibold text-[#f5f7ef]">
+                          {alert.title}
+                        </p>
+                        {isPrimary && (
+                          <p className="text-[11px] text-[#8d9286]">{alert.detail}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex shrink-0 gap-2">
+                      {(isPrimary ? alert.actions : [alert.primaryAction]).map(
+                        (action) => (
+                          <span
+                            key={action}
+                            className={`inline-flex h-7 items-center gap-1.5 rounded-full px-3 text-[12px] font-semibold ${
+                              action === alert.primaryAction
+                                ? "bg-[#0a84ff] text-white"
+                                : "bg-white/12 text-[#f5f7ef]"
+                            }`}
+                          >
+                            {isPrimary &&
+                            (action === "Skip meeting" ||
+                              action === "Dismiss" ||
+                              action === "Skip") ? (
+                              <X aria-hidden="true" className="size-3" />
+                            ) : null}
+                            {action}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export { Nav, Footer };
 
 export default async function Home() {
@@ -498,59 +633,63 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="border-b border-white/10 py-20">
-          <div className="mx-auto max-w-6xl px-5 sm:px-6">
-            <div className="mb-10 max-w-2xl">
-              <p className="mb-3 text-sm text-[#6ee7b7]">Why it matters</p>
-              <h2 className="text-3xl font-semibold sm:text-4xl">
-                Capture anywhere. Keep the meeting private.
+        <section className="border-b border-white/10 py-16">
+          <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <p className="mb-3 text-sm text-[#6ee7b7]">Individual license</p>
+              <h2 className="max-w-xl text-3xl font-semibold sm:text-4xl">
+                Pay once. Use the AI you already have.
               </h2>
             </div>
-            <div className="mb-6 grid gap-3 lg:grid-cols-3">
-              {proofPoints.map((point) => (
-                <div
-                  key={point.value}
-                  className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5"
-                >
-                  <p className="mb-2 text-2xl font-semibold text-[#e7fff5]">
-                    {point.value}
-                  </p>
-                  <p className="text-sm leading-6 text-[#aeb5a8]">
-                    {point.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature) => (
-                <div
-                  key={feature.title}
-                  className="rounded-lg border border-white/10 bg-[#171a14] p-5"
-                >
-                  <h3 className="mb-2 text-base font-semibold">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm leading-6 text-[#aeb5a8]">
-                    {feature.desc}
-                  </p>
-                </div>
-              ))}
+            <div className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5">
+              <div className="grid gap-5 sm:grid-cols-3">
+                {valuePoints.map((point) => (
+                  <div key={point.value}>
+                    <p className="mb-2 text-xl font-semibold text-[#e7fff5]">
+                      {point.value}
+                    </p>
+                    <p className="text-sm leading-6 text-[#aeb5a8]">
+                      {point.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         <section className="border-b border-white/10 bg-[#0d0f0c] py-20">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div>
+              <p className="mb-3 text-sm text-[#7bf0ce]">Calendar overlays</p>
+              <h2 className="max-w-xl text-3xl font-semibold sm:text-4xl">
+                Transcript catches the meeting you forgot to join.
+              </h2>
+              <p className="mt-5 max-w-lg text-sm leading-7 text-[#aeb5a8]">
+                If a calendar meeting starts and you are not in it, Transcript
+                can nudge you to join, skip, or snooze. It can also remind you
+                before the call and prompt recording when meeting audio is active.
+              </p>
+            </div>
+
+            <OverlayPreview />
+          </div>
+        </section>
+
+        <section className="border-b border-white/10 py-20">
           <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <p className="mb-3 text-sm text-[#f4c95d]">Recap pipeline</p>
+              <p className="mb-3 text-sm text-[#f4c95d]">
+                Speaker-aware recap pipeline
+              </p>
               <h2 className="text-3xl font-semibold sm:text-4xl">
-                Small cues, richer recaps.
+                Better speaker cues before the recap.
               </h2>
               <p className="mt-5 text-sm leading-7 text-[#aeb5a8]">
-                Recap input is kept as structured WebVTT, but cues are split by
-                speaker label, duration, and size. Codex gets tighter context
-                for summaries, decisions, objections, and owner-specific
-                follow-ups without changing the visible transcript.
+                Transcript does not just dump a flat transcript into AI. It
+                keeps mic and system audio cues aligned, marks Local, Remote,
+                and Overlap segments, then sends a cleaner recap input so Codex
+                or Claude Code has a better shot at who said what.
               </p>
             </div>
             <div className="rounded-lg border border-white/10 bg-[#171a14] p-4">
@@ -559,18 +698,32 @@ export default async function Home() {
                   .recap-input.vtt
                 </span>
                 <span className="rounded-md bg-[#d9ff72]/10 px-2 py-1 text-[11px] text-[#ecffae]">
-                  speaker-aware
+                  mic + system mix
+                </span>
+              </div>
+              <div className="mb-4 grid gap-2 text-[11px] text-[#aeb5a8] sm:grid-cols-3">
+                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
+                  Local: mic
+                </span>
+                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
+                  Remote: system
+                </span>
+                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
+                  Overlap: tentative
                 </span>
               </div>
               <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-[12px] leading-6 text-[#c7cdbf]">
-                {`00:00:06.640 --> 00:00:15.900
-Local: Let's validate the recording flow.
+                {`00:03:14.120 --> 00:03:19.480
+Local: I can own the rollout notes by Friday.
 
-00:00:16.000 --> 00:00:19.200
-Remote: The demo audio is now playing.
+00:03:19.540 --> 00:03:25.900
+Remote: Great. Let's keep the beta group to ten customers.
 
-00:00:19.200 --> 00:00:20.300
-Local: Interesting, actually.`}
+00:03:26.020 --> 00:03:28.700
+Overlap: Both sides are active; attribution is tentative.
+
+00:03:31.400 --> 00:03:38.600
+Remote: Support needs the migration checklist before launch.`}
               </pre>
             </div>
           </div>
@@ -578,49 +731,155 @@ Local: Interesting, actually.`}
 
         <section className="border-b border-white/10 py-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
-            <div className="grid gap-3 lg:grid-cols-4">
-              {workflow.map(([title, desc], index) => (
-                <div
-                  key={title}
-                  className="rounded-lg border border-white/10 bg-[#171a14] p-5"
-                >
-                  <p className="mb-5 font-mono text-[12px] text-[#8d9286]">
-                    0{index + 1}
-                  </p>
-                  <h3 className="mb-2 text-lg font-semibold">{title}</h3>
-                  <p className="text-sm leading-6 text-[#aeb5a8]">{desc}</p>
+            <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="mb-3 text-sm text-[#d9ff72]">How it works</p>
+                <h2 className="max-w-2xl text-3xl font-semibold sm:text-4xl">
+                  From call audio to a recap you can use.
+                </h2>
+              </div>
+              <p className="max-w-sm text-sm leading-7 text-[#aeb5a8]">
+                Record once. Transcript handles the private middle: local
+                transcription, recap context, and tidy exports.
+              </p>
+            </div>
+
+            <div className="overflow-hidden rounded-lg border border-white/10 bg-[#12150f] shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+              <div className="flex items-center justify-between border-b border-white/10 bg-black/15 px-5 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="size-3 rounded-full bg-[#ff6b57]" />
+                  <span className="size-3 rounded-full bg-[#f7c758]" />
+                  <span className="size-3 rounded-full bg-[#65d26e]" />
                 </div>
-              ))}
+                <span className="font-mono text-[11px] text-[#7d8377]">
+                  transcript run
+                </span>
+              </div>
+
+              <div className="grid lg:grid-cols-4">
+                {workflow.map((step, index) => {
+                  const Icon = step.icon;
+
+                  return (
+                    <div
+                      key={step.title}
+                      className="relative min-h-[255px] border-b border-white/10 p-6 last:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0"
+                    >
+                      <div className="mb-8 flex items-start justify-between gap-4">
+                        <span className="font-mono text-[12px] text-[#8d9286]">
+                          0{index + 1}
+                        </span>
+                        <span className="rounded border border-white/10 bg-black/20 px-2 py-1 font-mono text-[11px] text-[#b8beb1]">
+                          {step.output}
+                        </span>
+                      </div>
+
+                      <div className="mb-6 flex items-center">
+                        <div className="relative z-10 flex size-11 items-center justify-center rounded-lg border border-white/10 bg-[#191d14] text-[#d9ff72] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                          <Icon aria-hidden="true" className="size-5" />
+                        </div>
+                        {index < workflow.length - 1 && (
+                          <div
+                            aria-hidden="true"
+                            className="ml-4 hidden h-px flex-1 bg-[linear-gradient(90deg,rgba(217,255,114,0.5),rgba(255,255,255,0.08))] lg:block"
+                          />
+                        )}
+                      </div>
+
+                      <h3 className="mb-3 text-xl font-semibold text-[#f5f7ef]">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm leading-6 text-[#aeb5a8]">
+                        {step.desc}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="border-t border-white/10 bg-black/20 px-5 py-4">
+                <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] text-[#8d9286]">
+                  {workflow.map((step, index) => (
+                    <span key={step.output} className="flex items-center gap-2">
+                      <span>{step.output}</span>
+                      {index < workflow.length - 1 && (
+                        <span aria-hidden="true" className="text-[#4f554b]">
+                          /
+                        </span>
+                      )}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         <section className="py-20">
-          <div className="mx-auto grid max-w-6xl gap-6 px-5 sm:px-6 lg:grid-cols-[1fr_1fr]">
-            <div className="rounded-lg border border-white/10 bg-[#171a14] p-7">
-              <h2 className="mb-4 text-2xl font-semibold">
-                No duplicate diarization audio.
-              </h2>
-              <p className="text-sm leading-7 text-[#aeb5a8]">
-                The Local/Remote beta stores derived RMS and peak activity per
-                second in a hidden metadata file. It is not speech and cannot be
-                used to reconstruct the meeting.
+          <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div>
+              <p className="mb-3 text-sm text-[#d9ff72]">
+                Codex-ready archive
               </p>
+              <h2 className="max-w-xl text-3xl font-semibold sm:text-4xl">
+                Ask Codex about any meeting later.
+              </h2>
+              <p className="mt-5 max-w-lg text-sm leading-7 text-[#aeb5a8]">
+                Transcript stores meetings as local recordings, transcripts,
+                recaps, tags, names, and exports on purpose. Codex or Claude
+                Code can search that archive, regenerate summaries, compare
+                calls, and prepare follow-ups without a new notes database.
+              </p>
+
+              <div className="mt-6 grid gap-3 text-sm text-[#c7cdbf]">
+                <div className="rounded-lg border border-white/10 bg-[#171a14] p-4">
+                  The bundled CLI lets Codex search by customer, topic, tag, or
+                  week across your local meeting history.
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#171a14] p-4">
+                  Use the CLI with Claude Code or Codex to regenerate recaps,
+                  pull decisions, and draft follow-ups from the source files.
+                </div>
+              </div>
             </div>
-            <div className="rounded-lg border border-white/10 bg-[#171a14] p-7">
-              <h2 className="mb-4 text-2xl font-semibold">
-                Terminal-friendly.
-              </h2>
-              <p className="mb-4 text-sm leading-7 text-[#aeb5a8]">
-                Use the app, or automate the same flow with the bundled CLI.
-              </p>
-              <code className="block rounded-md border border-white/10 bg-black/25 p-4 font-mono text-[12px] text-[#ecffae]">
-                transcript record --duration 60m
-                <br />
-                transcript transcribe latest
-                <br />
-                transcript recap latest
-              </code>
+
+            <div className="overflow-hidden rounded-lg border border-white/10 bg-[#12150f]">
+              <div className="flex items-center justify-between border-b border-white/10 bg-black/20 px-4 py-3">
+                <span className="font-mono text-[12px] text-[#8d9286]">
+                  local archive
+                </span>
+                <span className="rounded bg-[#d9ff72]/10 px-2 py-1 text-[11px] text-[#ecffae]">
+                  bundled CLI
+                </span>
+              </div>
+
+              <div className="grid gap-4 p-4">
+                <div className="rounded-md border border-[#7bf0ce]/20 bg-[#7bf0ce]/8 p-4">
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#7bf0ce]">
+                    Codex / Claude Code prompt
+                  </p>
+                  <p className="font-mono text-[12px] leading-6 text-[#dfe6d8]">
+                    Find every Transcript meeting I had with Acme this week,
+                    pull out decisions, blockers, and promised next steps, then
+                    draft a follow-up email I can send today.
+                  </p>
+                </div>
+
+                <div>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#8d9286]">
+                    CLI creates the archive
+                  </p>
+                  <code className="block rounded-md border border-white/10 bg-black/30 p-4 font-mono text-[12px] leading-6 text-[#ecffae]">
+                    transcript record --duration 60m
+                    <br />
+                    transcript transcribe latest
+                    <br />
+                    transcript summarize latest
+                    <br />
+                    transcript rename latest --apply
+                  </code>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -631,7 +890,7 @@ Local: Interesting, actually.`}
             <div className="mb-10 max-w-2xl">
               <p className="mb-3 text-sm text-[#d9ff72]">FAQ</p>
               <h2 className="text-3xl font-semibold sm:text-4xl">
-                The things teams ask before installing it.
+                Before you buy Transcript.
               </h2>
             </div>
 
