@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { appcastUrl, getReleases, releasesFeedUrl } from "@/lib/releases";
+import { getReleases } from "@/lib/releases";
 import { createPageMetadata } from "@/lib/seo";
 import { Footer, Nav } from "../page";
 
@@ -7,7 +7,7 @@ export const metadata = createPageMetadata({
   path: "/changelog",
   title: "Changelog - Transcript",
   description:
-    "Release notes, appcast feed, and macOS downloads for Transcript private meeting recaps.",
+    "Release notes and macOS downloads for Transcript private meeting recaps.",
 });
 
 function formatDate(value: string | null): string {
@@ -108,14 +108,14 @@ export default async function Changelog() {
         <section className="border-b border-white/10">
           <div className="mx-auto max-w-6xl px-5 pb-14 pt-16 sm:px-6 sm:pt-20">
             <p className="mb-4 rounded-md border border-[#d9ff72]/25 bg-[#d9ff72]/10 px-3 py-1.5 text-[13px] text-[#ecffae] sm:inline-flex">
-              Synced from the public release feed
+              Transcript updates
             </p>
             <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-6xl">
               Changelog
             </h1>
             <p className="mt-5 max-w-2xl break-words text-base leading-8 text-[#c3c8ba]">
-              Every Transcript release lands here automatically. Scroll across
-              recent versions, then open the full notes and DMG for each one.
+              See what changed in each Transcript release, then download the
+              latest macOS build when you are ready to update.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -123,14 +123,6 @@ export default async function Changelog() {
                 className="inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
               >
                 Download latest
-              </a>
-              <a
-                href={releasesFeedUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
-              >
-                Release feed
               </a>
             </div>
             <ReleaseRail releases={releases} />
@@ -145,8 +137,8 @@ export default async function Changelog() {
                 <h2 className="text-3xl font-semibold">Latest versions</h2>
               </div>
               <p className="max-w-md text-sm leading-6 text-[#8d9286]">
-                The release script keeps this list in sync with the public R2
-                feed used by the download route.
+                Each release includes the version, date, notes, and macOS
+                download.
               </p>
             </div>
             <div className="space-y-4">
@@ -203,14 +195,6 @@ export default async function Changelog() {
               >
                 &larr; Back to home
               </Link>
-              <a
-                href={appcastUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-5 text-sm text-[#8d9286] transition-colors hover:text-white"
-              >
-                Appcast
-              </a>
             </div>
           </div>
         </section>
