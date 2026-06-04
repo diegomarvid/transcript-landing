@@ -664,59 +664,6 @@ export default async function Home() {
         </section>
 
         <section className="border-b border-white/10 py-20">
-          <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <p className="mb-3 text-sm text-[#f4c95d]">
-                Speaker-aware recap pipeline
-              </p>
-              <h2 className="text-3xl font-semibold sm:text-4xl">
-                Better speaker cues before the recap.
-              </h2>
-              <p className="mt-5 text-sm leading-7 text-[#aeb5a8]">
-                Transcript does not just dump a flat transcript into AI. It
-                keeps mic and system audio cues aligned, marks Local, Remote,
-                and Overlap segments, then sends a cleaner recap input so Codex
-                or Claude Code has a better shot at who said what.
-              </p>
-            </div>
-            <div className="rounded-lg border border-white/10 bg-[#171a14] p-4">
-              <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="font-mono text-[12px] text-[#8d9286]">
-                  .recap-input.vtt
-                </span>
-                <span className="rounded-md bg-[#d9ff72]/10 px-2 py-1 text-[11px] text-[#ecffae]">
-                  mic + system mix
-                </span>
-              </div>
-              <div className="mb-4 grid gap-2 text-[11px] text-[#aeb5a8] sm:grid-cols-3">
-                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
-                  Local: mic
-                </span>
-                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
-                  Remote: system
-                </span>
-                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
-                  Overlap: tentative
-                </span>
-              </div>
-              <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-[12px] leading-6 text-[#c7cdbf]">
-                {`00:03:14.120 --> 00:03:19.480
-Local: I can own the rollout notes by Friday.
-
-00:03:19.540 --> 00:03:25.900
-Remote: Great. Let's keep the beta group to ten customers.
-
-00:03:26.020 --> 00:03:28.700
-Overlap: Both sides are active; attribution is tentative.
-
-00:03:31.400 --> 00:03:38.600
-Remote: Support needs the migration checklist before launch.`}
-              </pre>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20">
           <div className="mx-auto grid max-w-6xl gap-8 px-5 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
               <p className="mb-3 text-sm text-[#d9ff72]">
@@ -781,6 +728,59 @@ Remote: Support needs the migration checklist before launch.`}
                   </code>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
+            <div>
+              <p className="mb-3 text-sm text-[#f4c95d]">
+                Speaker-aware recap pipeline
+              </p>
+              <h2 className="text-3xl font-semibold sm:text-4xl">
+                Better speaker cues before the recap.
+              </h2>
+              <p className="mt-5 text-sm leading-7 text-[#aeb5a8]">
+                Transcript does not just dump a flat transcript into AI. It
+                keeps mic and system audio cues aligned, marks Local, Remote,
+                and Overlap segments, then sends a cleaner recap input so Codex
+                or Claude Code has a better shot at who said what.
+              </p>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-[#171a14] p-4">
+              <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-3">
+                <span className="font-mono text-[12px] text-[#8d9286]">
+                  .recap-input.vtt
+                </span>
+                <span className="rounded-md bg-[#d9ff72]/10 px-2 py-1 text-[11px] text-[#ecffae]">
+                  mic + system mix
+                </span>
+              </div>
+              <div className="mb-4 grid gap-2 text-[11px] text-[#aeb5a8] sm:grid-cols-3">
+                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
+                  Local: mic
+                </span>
+                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
+                  Remote: system
+                </span>
+                <span className="rounded border border-white/10 bg-black/20 px-2 py-1">
+                  Overlap: tentative
+                </span>
+              </div>
+              <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-[12px] leading-6 text-[#c7cdbf]">
+                {`00:03:14.120 --> 00:03:19.480
+Local: I can own the rollout notes by Friday.
+
+00:03:19.540 --> 00:03:25.900
+Remote: Great. Let's keep the beta group to ten customers.
+
+00:03:26.020 --> 00:03:28.700
+Overlap: Both sides are active; attribution is tentative.
+
+00:03:31.400 --> 00:03:38.600
+Remote: Support needs the migration checklist before launch.`}
+              </pre>
             </div>
           </div>
         </section>
