@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { getLatestRelease, ReleaseUnavailableError } from "@/lib/releases";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   try {
-    const release = await getLatestRelease();
+    const release = await getLatestRelease({ fresh: true });
     return NextResponse.redirect(release.downloadUrl);
   } catch (error) {
     if (error instanceof ReleaseUnavailableError) {

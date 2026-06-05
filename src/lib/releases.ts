@@ -6,6 +6,14 @@ export const releaseRevalidateSeconds = 300;
 export const releasesFeedUrl = `${r2BaseUrl}/releases.json`;
 export const appcastUrl = `${r2BaseUrl}/appcast.xml`;
 
+type ReleaseFetchMode = "cached" | "fresh";
+
+function releaseFetchOptions(mode: ReleaseFetchMode) {
+  return mode === "fresh"
+    ? { cache: "no-store" as const }
+    : { next: { revalidate: releaseRevalidateSeconds } };
+}
+
 type ReleaseFeedItem = {
   version: string;
   tag?: string;
@@ -148,11 +156,11 @@ async function releasesFromAppcast(): Promise<AppRelease[]> {
   return release ? [release] : [fallbackRelease()];
 }
 
-async function latestReleaseFromAppcast(): Promise<DownloadableAppRelease | null> {
+async function latestReleaseFromAppcast(
+  mode: ReleaseFetchMode = "cached",
+): Promise<DownloadableAppRelease | null> {
   try {
-    const response = await fetch(appcastUrl, {
-      next: { revalidate: releaseRevalidateSeconds },
-    });
+    const response = await fetch(appcastUrl, releaseFetchOptions(mode));
 
     if (!response.ok) {
       return null;
@@ -164,11 +172,11 @@ async function latestReleaseFromAppcast(): Promise<DownloadableAppRelease | null
   }
 }
 
-async function latestReleaseFromFeed(): Promise<AppRelease | null> {
+async function latestReleaseFromFeed(
+  mode: ReleaseFetchMode = "cached",
+): Promise<AppRelease | null> {
   try {
-    const response = await fetch(releasesFeedUrl, {
-      next: { revalidate: releaseRevalidateSeconds },
-    });
+    const response = await fetch(releasesFeedUrl, releaseFetchOptions(mode));
 
     if (!response.ok) {
       return null;
@@ -209,8 +217,11 @@ export async function getReleases(): Promise<AppRelease[]> {
   }
 }
 
-export async function getLatestRelease(): Promise<DownloadableAppRelease> {
-  const appcastLatest = await latestReleaseFromAppcast();
+export async function getLatestRelease(
+  options: { fresh?: boolean } = {},
+): Promise<DownloadableAppRelease> {
+  const mode: ReleaseFetchMode = options.fresh ? "fresh" : "cached";
+  const appcastLatest = await latestReleaseFromAppcast(mode);
   if (
     appcastLatest?.downloadUrl &&
     isLicensedDownloadVersion(appcastLatest.version) &&
@@ -219,7 +230,7 @@ export async function getLatestRelease(): Promise<DownloadableAppRelease> {
     return appcastLatest;
   }
 
-  const feedLatest = await latestReleaseFromFeed();
+  const feedLatest = await latestReleaseFromFeed(mode);
   if (feedLatest && isLicensedDownloadVersion(feedLatest.version)) {
     return {
       ...feedLatest,
