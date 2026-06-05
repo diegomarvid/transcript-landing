@@ -649,9 +649,7 @@ export default async function Home() {
                 href={downloadHref}
                 className="mt-6 inline-flex items-center justify-center rounded-md bg-[#d9ff72] px-5 py-3 text-sm font-semibold text-[#15170f] transition hover:bg-[#ecffae]"
               >
-                {downloadAvailable
-                  ? "Download and activate"
-                  : "Licensed download coming soon"}
+                {downloadAvailable ? "Download" : "Licensed download coming soon"}
               </Link>
             </div>
             <div className="rounded-lg border border-[#6ee7b7]/20 bg-[#6ee7b7]/10 p-5">
