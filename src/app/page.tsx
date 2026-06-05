@@ -580,12 +580,6 @@ export default async function Home() {
                     ? "Download for macOS"
                     : "Licensed download coming soon"}
                 </Link>
-                <Link
-                  href="#pricing"
-                  className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-[#f5f7ef] transition hover:border-white/35"
-                >
-                  See pricing
-                </Link>
               </div>
               <p className="mt-4 text-[13px] text-[#8d9286]">
                 Requires macOS 15.7 or later. Activate a one-time{" "}
