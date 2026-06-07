@@ -6,7 +6,7 @@ export const metadata = createPageMetadata({
   path: "/privacy",
   title: "Privacy Policy - Transcript",
   description:
-    "Privacy Policy for Transcript, the private macOS meeting recorder and AI recap app.",
+    "Privacy Policy for Transcript, the private local transcription and AI recap app.",
 });
 
 export default function Privacy() {
@@ -17,17 +17,19 @@ export default function Privacy() {
         <article className="mx-auto max-w-3xl px-6 pb-24 pt-16">
           <h1 className="mb-2 text-3xl font-semibold">Privacy Policy</h1>
           <p className="mb-10 text-sm text-[#8d9286]">
-            Last updated: June 4, 2026
+            Last updated: June 7, 2026
           </p>
 
           <div className="space-y-8 text-sm leading-relaxed text-[#aeb5a8] [&_a]:text-[#d9ff72] [&_a]:underline [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px] [&_code]:text-[#ecffae] [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-[#f5f7ef] [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
             <section>
               <h2>Overview</h2>
               <p>
-                Transcript is a macOS application and bundled CLI for recording
-                meetings, transcribing audio, and generating AI recaps. There is
+                Transcript is a local transcription and AI recap app for Mac and
+                iPhone. It records meetings, transcribes audio, and helps you
+                bring transcripts to the AI app or provider you choose. There is
                 no Transcript-operated backend, analytics service, ad network,
-                or telemetry pipeline.
+                or telemetry pipeline for recordings, transcripts, prompts, or
+                recaps.
               </p>
             </section>
 
@@ -38,8 +40,8 @@ export default function Privacy() {
                   We do not collect, store, or sell your personal data on our
                   servers.
                 </strong>{" "}
-                The app stores your recordings, transcripts, recaps, tags,
-                prompts, metadata, and settings on your Mac.
+                The app stores your recordings, transcripts, recaps, prompts,
+                metadata, and settings on your device.
               </p>
             </section>
 
@@ -47,21 +49,33 @@ export default function Privacy() {
               <h2>Recordings and Transcripts</h2>
               <ul>
                 <li>
-                  Recordings are saved locally in your configured Transcript data
-                  folder. The default location is{" "}
+                  On Mac, recordings are saved locally in your configured
+                  Transcript data folder. The default location is{" "}
                   <code>~/Documents/Transcript-App</code>.
+                </li>
+                <li>
+                  On iPhone, recordings are saved in the Transcript Mobile app
+                  container. By default, local audio is deleted after
+                  transcription succeeds unless you enable audio retention.
                 </li>
                 <li>
                   Local Whisper transcription processes audio on your device.
                 </li>
                 <li>
-                  If you choose a cloud transcription or recap provider, the app
-                  or CLI sends the relevant audio, transcript, recap input, or
-                  prompt directly to that provider from your Mac.
+                  On iPhone, Transcript Mobile prepares prompts, copies them to
+                  the clipboard, and opens AI apps such as ChatGPT, Claude, or
+                  Gemini. You decide whether to paste and send the prompt in
+                  that third-party app.
+                </li>
+                <li>
+                  On Mac, if you choose a cloud transcription or recap provider,
+                  the app or CLI sends the relevant audio, transcript, recap
+                  input, or prompt directly to that provider from your Mac.
                 </li>
                 <li>
                   You can delete recordings, transcripts, recaps, and metadata
-                  from Finder at any time.
+                  from inside the app. On Mac, you can also delete them from
+                  Finder.
                 </li>
               </ul>
             </section>
@@ -95,7 +109,8 @@ export default function Privacy() {
                 </li>
                 <li>
                   OAuth tokens are stored in the macOS Keychain and are not sent
-                  to any Transcript server.
+                  to any Transcript server. On iPhone, tokens are stored in the
+                  iOS keychain.
                 </li>
                 <li>
                   Transcript does not create, edit, or delete calendar events.
@@ -115,6 +130,11 @@ export default function Privacy() {
                 </li>
                 <li>
                   Google Calendar API for optional read-only calendar matching.
+                </li>
+                <li>
+                  ChatGPT, Claude, Gemini, or another AI app you open from
+                  Transcript Mobile when you choose to paste and send copied
+                  prompt content there.
                 </li>
                 <li>
                   Sparkle and Cloudflare R2 for app update checks and download

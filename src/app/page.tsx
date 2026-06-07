@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/accordion";
 import { getLatestRelease, ReleaseUnavailableError } from "@/lib/releases";
 import { personalLicensePrice } from "@/lib/commerce";
-import { createPageMetadata, supportEmail } from "@/lib/seo";
+import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Transcript - Private AI meeting recaps for macOS",
@@ -238,12 +238,9 @@ function Footer() {
           <span>&copy; {new Date().getFullYear()} Transcript.</span>
         </div>
         <div className="flex flex-wrap gap-x-5 gap-y-2">
-          <a
-            href={`mailto:${supportEmail}`}
-            className="transition-colors hover:text-white"
-          >
+          <Link href="/support" className="transition-colors hover:text-white">
             Support
-          </a>
+          </Link>
           <Link href="/privacy" className="transition-colors hover:text-white">
             Privacy Policy
           </Link>
