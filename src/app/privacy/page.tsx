@@ -54,7 +54,7 @@ export default function Privacy() {
                   <code>~/Documents/Transcript-App</code>.
                 </li>
                 <li>
-                  On iPhone, recordings are saved in the Transcript Mobile app
+                  On iPhone, recordings are saved in the Transcript Private app
                   container. By default, local audio is deleted after
                   transcription succeeds unless you enable audio retention.
                 </li>
@@ -62,7 +62,7 @@ export default function Privacy() {
                   Local Whisper transcription processes audio on your device.
                 </li>
                 <li>
-                  On iPhone, Transcript Mobile prepares prompts, copies them to
+                  On iPhone, Transcript Private prepares prompts, copies them to
                   the clipboard, and opens AI apps such as ChatGPT, Claude, or
                   Gemini. You decide whether to paste and send the prompt in
                   that third-party app.
@@ -133,7 +133,7 @@ export default function Privacy() {
                 </li>
                 <li>
                   ChatGPT, Claude, Gemini, or another AI app you open from
-                  Transcript Mobile when you choose to paste and send copied
+                  Transcript Private when you choose to paste and send copied
                   prompt content there.
                 </li>
                 <li>
