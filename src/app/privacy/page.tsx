@@ -17,7 +17,7 @@ export default function Privacy() {
         <article className="mx-auto max-w-3xl px-6 pb-24 pt-16">
           <h1 className="mb-2 text-3xl font-semibold">Privacy Policy</h1>
           <p className="mb-10 text-sm text-[#8d9286]">
-            Last updated: June 7, 2026
+            Last updated: June 10, 2026
           </p>
 
           <div className="space-y-8 text-sm leading-relaxed text-[#aeb5a8] [&_a]:text-[#d9ff72] [&_a]:underline [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px] [&_code]:text-[#ecffae] [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-[#f5f7ef] [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
@@ -119,6 +119,75 @@ export default function Privacy() {
             </section>
 
             <section>
+              <h2>Google Drive Integration</h2>
+              <p>
+                Google Drive connection is optional and uses OAuth 2.0. When
+                enabled:
+              </p>
+              <ul>
+                <li>
+                  Transcript requests Google Drive file access only so you can
+                  choose a Drive folder and upload Transcript-created files to
+                  it.
+                </li>
+                <li>
+                  Depending on your Cloud Sync settings, uploaded files may
+                  include recap documents, metadata, transcripts, or audio
+                  recordings.
+                </li>
+                <li>
+                  Transcript does not browse, index, or read arbitrary files in
+                  your Google Drive.
+                </li>
+                <li>
+                  Drive folder IDs, display names, selected upload settings, and
+                  the connected Google account email are stored locally on your
+                  device.
+                </li>
+                <li>
+                  Uploaded files remain in your Google Drive until you delete
+                  them there. Removing a Drive destination in Transcript removes
+                  the local routing configuration; it does not delete existing
+                  Drive files.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h2>Google User Data Use, Sharing, Retention, and Protection</h2>
+              <ul>
+                <li>
+                  Transcript uses Google user data only to provide user-facing
+                  features you enable: calendar matching, meeting reminders,
+                  local speaker hints, and Google Drive export.
+                </li>
+                <li>
+                  Transcript does not sell Google user data, use it for
+                  advertising, share it with data brokers, determine
+                  credit-worthiness, or use it to train AI models.
+                </li>
+                <li>
+                  If you configure an AI provider for recaps, titles, or related
+                  processing, relevant meeting context such as event title, time,
+                  attendees, and meeting link may be included in prompts sent
+                  directly from your device to that provider. Transcript does
+                  not proxy these requests through a Transcript-operated server.
+                </li>
+                <li>
+                  Calendar metadata may be stored locally in meeting metadata or
+                  recap files until you delete those files. OAuth tokens remain
+                  in the system Keychain until you disconnect the account or
+                  revoke access from your Google Account permissions.
+                </li>
+                <li>
+                  Transcript protects Google user data using operating-system
+                  storage protections, macOS and iOS Keychain storage for OAuth
+                  tokens, and HTTPS/TLS connections to Google APIs.
+                </li>
+              </ul>
+            </section>
+
+            <section>
               <h2>Third-Party Services</h2>
               <p>
                 Depending on your settings, Transcript may communicate with:
@@ -130,6 +199,9 @@ export default function Privacy() {
                 </li>
                 <li>
                   Google Calendar API for optional read-only calendar matching.
+                </li>
+                <li>
+                  Google Drive API for optional user-selected Drive exports.
                 </li>
                 <li>
                   ChatGPT, Claude, Gemini, or another AI app you open from
@@ -152,7 +224,9 @@ export default function Privacy() {
               <h2>Credentials</h2>
               <ul>
                 <li>
-                  Google OAuth tokens are stored in the macOS Keychain.
+                  Google OAuth tokens for Calendar and Drive are stored in the
+                  macOS Keychain. On iPhone, tokens are stored in the iOS
+                  keychain.
                 </li>
                 <li>
                   API keys and local AI tool credentials stay on your Mac in the

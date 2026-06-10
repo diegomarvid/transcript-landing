@@ -17,7 +17,7 @@ export default function Terms() {
         <article className="mx-auto max-w-3xl px-6 pb-24 pt-16">
           <h1 className="mb-2 text-3xl font-semibold">Terms of Service</h1>
           <p className="mb-10 text-sm text-[#8d9286]">
-            Last updated: June 4, 2026
+            Last updated: June 10, 2026
           </p>
 
           <div className="space-y-8 text-sm leading-relaxed text-[#aeb5a8] [&_a]:text-[#d9ff72] [&_a]:underline [&_a]:underline-offset-2 [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-[#f5f7ef] [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
@@ -37,7 +37,8 @@ export default function Terms() {
                 line tool for recording microphone and system audio,
                 transcribing meetings, generating AI recaps, exporting notes,
                 tagging sessions, and optionally matching recordings with
-                read-only Google Calendar events.
+                read-only Google Calendar events or uploading selected
+                Transcript-created files to Google Drive folders you choose.
               </p>
             </section>
 
@@ -84,12 +85,25 @@ export default function Terms() {
             </section>
 
             <section>
+              <h2>Google Drive Access</h2>
+              <p>
+                If you connect Google Drive, you authorize Transcript to upload
+                selected Transcript-created files, such as recap documents,
+                metadata, transcripts, or audio, to Drive folders you choose in
+                the app. Transcript does not browse, index, or read arbitrary
+                files in your Google Drive. Existing uploaded files remain in
+                your Drive until you delete them there.
+              </p>
+            </section>
+
+            <section>
               <h2>Third-Party Services</h2>
               <p>
                 Transcript can use third-party tools and services such as Google
                 Gemini API, OpenAI API, Codex CLI, Claude Code, Google Calendar
-                API, Sparkle, and Cloudflare R2. Your use of those services is
-                subject to their respective terms and policies.
+                API, Google Drive API, Sparkle, and Cloudflare R2. Your use of
+                those services is subject to their respective terms and
+                policies.
               </p>
             </section>
 
