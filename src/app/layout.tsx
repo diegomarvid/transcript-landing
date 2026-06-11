@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import StructuredData from "@/components/StructuredData";
 import { sharedMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -30,6 +31,7 @@ export default function RootLayout({
       >
         <StructuredData />
         {children}
+        <Analytics />
       </body>
     </html>
   );
