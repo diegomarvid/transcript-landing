@@ -17,7 +17,7 @@ export default function Privacy() {
         <article className="mx-auto max-w-3xl px-6 pb-24 pt-16">
           <h1 className="mb-2 text-3xl font-semibold">Privacy Policy</h1>
           <p className="mb-10 text-sm text-[#8d9286]">
-            Last updated: June 10, 2026
+            Last updated: June 12, 2026
           </p>
 
           <div className="space-y-8 text-sm leading-relaxed text-[#aeb5a8] [&_a]:text-[#d9ff72] [&_a]:underline [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px] [&_code]:text-[#ecffae] [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-[#f5f7ef] [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
@@ -153,8 +153,20 @@ export default function Privacy() {
               </ul>
             </section>
 
-            <section>
-              <h2>Google User Data Use, Sharing, Retention, and Protection</h2>
+            <section id="google-api-limited-use">
+              <h2>Google API Services User Data Policy and Limited Use</h2>
+              <p>
+                Transcript&apos;s use and transfer of information received from
+                Google APIs to any other app will adhere to the{" "}
+                <a
+                  href="https://developers.google.com/terms/api-services-user-data-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Google API Services User Data Policy
+                </a>
+                , including the Limited Use requirements.
+              </p>
               <ul>
                 <li>
                   Transcript uses Google user data only to provide user-facing
@@ -173,11 +185,48 @@ export default function Privacy() {
                   directly from your device to that provider. Transcript does
                   not proxy these requests through a Transcript-operated server.
                 </li>
+              </ul>
+            </section>
+
+            <section id="google-data-retention-deletion">
+              <h2>Retention and Deletion of Google User Data</h2>
+              <ul>
+                <li>
+                  Transcript does not retain Google user data on
+                  Transcript-operated servers. Google Calendar and Google Drive
+                  data is processed from your device for the optional features
+                  you enable.
+                </li>
                 <li>
                   Calendar metadata may be stored locally in meeting metadata or
-                  recap files until you delete those files. OAuth tokens remain
-                  in the system Keychain until you disconnect the account or
-                  revoke access from your Google Account permissions.
+                  recap files until you delete those local files from inside
+                  Transcript or from Finder.
+                </li>
+                <li>
+                  Google Drive destination details, such as folder IDs, display
+                  names, selected upload settings, and connected account email
+                  address, are stored locally until you remove the Drive
+                  destination or delete Transcript&apos;s local settings.
+                </li>
+                <li>
+                  Files uploaded to Google Drive remain in your Google Drive
+                  until you delete them there. Removing a Drive destination in
+                  Transcript stops future uploads and removes the local routing
+                  configuration; it does not delete files already uploaded to
+                  your Drive.
+                </li>
+                <li>
+                  Google OAuth tokens remain in the macOS or iOS Keychain until
+                  you disconnect the account in Transcript, remove the app&apos;s
+                  local data, or revoke Transcript&apos;s access from your{" "}
+                  <a
+                    href="https://myaccount.google.com/permissions"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Google Account permissions
+                  </a>
+                  .
                 </li>
                 <li>
                   Transcript protects Google user data using operating-system
