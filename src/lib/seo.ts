@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const siteUrl = "https://transcriptprivate.com";
+export const siteUrl = "https://www.transcriptprivate.com";
 export const siteName = "Transcript";
 export const supportEmail = "support@transcriptprivate.com";
 
