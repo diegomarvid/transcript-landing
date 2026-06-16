@@ -17,7 +17,7 @@ export default function Privacy() {
         <article className="mx-auto max-w-3xl px-6 pb-24 pt-16">
           <h1 className="mb-2 text-3xl font-semibold">Privacy Policy</h1>
           <p className="mb-10 text-sm text-[#8d9286]">
-            Last updated: June 12, 2026
+            Last updated: June 16, 2026
           </p>
 
           <div className="space-y-8 text-sm leading-relaxed text-[#aeb5a8] [&_a]:text-[#d9ff72] [&_a]:underline [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-white/[0.06] [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[13px] [&_code]:text-[#ecffae] [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-[#f5f7ef] [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
@@ -43,6 +43,43 @@ export default function Privacy() {
                 The app stores your recordings, transcripts, recaps, prompts,
                 metadata, and settings on your device.
               </p>
+            </section>
+
+            <section id="google-user-data">
+              <h2>Google User Data</h2>
+              <p>
+                Google integrations are optional. Transcript uses Google user
+                data only for the user-facing feature you turn on in the app.
+                Transcript does not use Google user data for advertising,
+                analytics, profiling, product analytics, training AI models, or
+                selling data.
+              </p>
+              <ul>
+                <li>
+                  <strong className="text-[#f5f7ef]">Google account email:</strong>{" "}
+                  used to show which Google account is connected, separate
+                  multiple connected accounts, and help identify your own
+                  calendar account during meeting matching.
+                </li>
+                <li>
+                  <strong className="text-[#f5f7ef]">Calendar list:</strong>{" "}
+                  used so you can choose which calendars Transcript may use for
+                  meeting matching and reminders.
+                </li>
+                <li>
+                  <strong className="text-[#f5f7ef]">Calendar events:</strong>{" "}
+                  read-only event title, time, attendees, and meeting link are
+                  used to detect upcoming or active meetings, show reminders,
+                  and attach meeting context to the local recording and recap
+                  you create.
+                </li>
+                <li>
+                  <strong className="text-[#f5f7ef]">Google Drive folders:</strong>{" "}
+                  used only when you choose a Drive destination in Cloud Sync.
+                  Transcript uploads only the Transcript-created files you
+                  select to that chosen folder.
+                </li>
+              </ul>
             </section>
 
             <section>
@@ -179,11 +216,13 @@ export default function Privacy() {
                   credit-worthiness, or use it to train AI models.
                 </li>
                 <li>
-                  If you configure an AI provider for recaps, titles, or related
-                  processing, relevant meeting context such as event title, time,
-                  attendees, and meeting link may be included in prompts sent
-                  directly from your device to that provider. Transcript does
-                  not proxy these requests through a Transcript-operated server.
+                  Google Calendar data is not sent to AI providers unless you
+                  explicitly run a Transcript feature that uses calendar context,
+                  such as generating a recap or title for that meeting. In that
+                  case, only the relevant meeting context needed for that
+                  user-requested output may be included in the prompt sent from
+                  your device. Transcript does not proxy these requests through
+                  a Transcript-operated server.
                 </li>
               </ul>
             </section>
