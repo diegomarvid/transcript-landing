@@ -38,6 +38,14 @@ type RawPolarValidatedLicense = RawPolarLicenseKey & {
   } | null;
 };
 
+type RawPolarLicenseKeyDetail = RawPolarLicenseKey & {
+  activations?: Array<{
+    id?: string;
+    label?: string;
+    meta?: Record<string, unknown> | null;
+  }> | null;
+};
+
 export type PolarLicenseSnapshot = {
   licenseId: string;
   displayKey: string;
@@ -71,6 +79,14 @@ export type DeactivateLicenseInput = {
   organizationId: string;
   licenseKey: string;
   activationId: string;
+};
+
+export type FindDeviceActivationInput = {
+  accessToken: string;
+  organizationId: string;
+  benefitId: string;
+  licenseKey: string;
+  deviceId: string;
 };
 
 const polarApiBase = "https://api.polar.sh/v1";
@@ -144,6 +160,73 @@ export async function deactivatePolarLicense({
     organization_id: organizationId,
     activation_id: activationId,
   });
+}
+
+/// Looks up the id of an activation this same device already holds on the
+/// license. Polar only knows activations by their opaque id — the app knows
+/// its own device id but loses the activation id together with its local
+/// record (reinstall, keychain reset), which is exactly the situation this
+/// lookup exists for. Requires `license_keys:read` on the access token.
+export async function findPolarActivationIdForDevice({
+  accessToken,
+  organizationId,
+  benefitId,
+  licenseKey,
+  deviceId,
+}: FindDeviceActivationInput): Promise<string | null> {
+  const validated = await polarRequest<RawPolarValidatedLicense>(
+    "/license-keys/validate",
+    accessToken,
+    {
+      key: licenseKey,
+      organization_id: organizationId,
+      benefit_id: benefitId,
+    },
+  );
+
+  const licenseId = validated.id;
+  if (typeof licenseId !== "string" || licenseId.length === 0) {
+    return null;
+  }
+
+  const detail = await polarGetRequest<RawPolarLicenseKeyDetail>(
+    `/license-keys/${licenseId}`,
+    accessToken,
+  );
+
+  const match = (detail.activations ?? []).find((activation) => {
+    const meta = activation?.meta ?? null;
+    return meta !== null && meta["device_id"] === deviceId;
+  });
+
+  return typeof match?.id === "string" && match.id.length > 0
+    ? match.id
+    : null;
+}
+
+async function polarGetRequest<T>(
+  path: string,
+  accessToken: string,
+): Promise<T> {
+  const response = await fetch(`${polarApiBase}${path}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new PolarLicenseError(
+      mapPolarError(response.status, data),
+      response.status,
+      data,
+    );
+  }
+
+  return data as T;
 }
 
 async function polarRequest<T>(

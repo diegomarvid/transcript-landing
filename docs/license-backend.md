@@ -14,9 +14,29 @@ POLAR_LICENSE_BENEFIT_ID=0bb79f60-3b45-423b-a2b8-86c281bce2ad
 LICENSE_SIGNING_PRIVATE_KEY_B64=<base64 PEM P-256 private key>
 ```
 
-`POLAR_ACCESS_TOKEN` needs `license_keys:write`. `license_keys:read` is useful
-for support tooling later, but the v1 endpoints only call activate, validate,
-and deactivate.
+`POLAR_ACCESS_TOKEN` needs `license_keys:write` **and** `license_keys:read`.
+Read is required by the same-device reactivation recovery in `/activate`
+(it lists the key's activations to find the stale one). If read is missing,
+activation still works but that recovery silently falls back to
+`activation_limit_reached`.
+
+## Free Licenses / Support Gifts
+
+When Diego needs to give someone a free one-time Transcript license, use the
+repo script instead of rebuilding the Polar API call by hand:
+
+```bash
+npm run polar:free-license -- --name Alan
+```
+
+The script creates a one-use, 100% Polar discount limited to the Transcript
+Personal License product and prints a checkout URL with `discount_code`. The
+recipient completes the `$0` checkout, then Polar generates the normal license
+key in the purchase "Benefit Grants".
+
+The same `POLAR_ACCESS_TOKEN` in `.env.local` is used locally. It must include
+`discounts:write`; `discounts:read` is useful for the script's verification
+step.
 
 ## App API
 
@@ -170,3 +190,8 @@ Stable error codes:
 - Entitlements are valid offline for 14 days.
 - No login is required.
 - No Transcript database is required yet; Polar is the source of truth.
+- If `/activate` hits `activation_limit_reached` and the existing activation
+  was created by the **same device id** (macOS reinstall, keychain reset,
+  "Reset local license"), the backend deactivates the stale activation and
+  activates again transparently. A genuinely different Mac still gets
+  `activation_limit_reached`.
