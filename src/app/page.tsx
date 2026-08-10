@@ -130,7 +130,7 @@ const faqs = [
   {
     question: "How much does Transcript cost?",
     answer:
-      "Transcript is sold as a one-time $50 license for one Mac. Download the macOS app first, then buy or activate a license from inside the app. After that, the core flow can be effectively free if you already pay for Claude or ChatGPT: Whisper transcription runs locally at no extra cost, and recaps can use Claude Code or Codex through the subscription you already have instead of another monthly meeting-notes subscription.",
+      "Transcript is sold as a one-time $50 license for one Mac, and every Mac starts with a free 14-day trial with everything unlocked — download the app and it just works, no card and no account. After the trial, the core flow can be effectively free if you already pay for Claude or ChatGPT: Whisper transcription runs locally at no extra cost, and recaps can use Claude Code or Codex through the subscription you already have instead of another monthly meeting-notes subscription.",
   },
   {
     question: "Do I need an API key?",
@@ -579,8 +579,8 @@ export default async function Home() {
                 </Link>
               </div>
               <p className="mt-4 text-[13px] text-[#8d9286]">
-                Requires macOS 15.7 or later. Activate a one-time{" "}
-                {personalLicensePrice} license inside the app.
+                Requires macOS 15.7 or later. Free 14-day trial, then a
+                one-time {personalLicensePrice} license inside the app.
               </p>
             </div>
 
