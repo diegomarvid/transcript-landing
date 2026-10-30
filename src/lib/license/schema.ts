@@ -4,7 +4,7 @@ export const deviceSchema = z.object({
   id: z.string().trim().min(8).max(160),
   name: z.string().trim().min(1).max(120).optional(),
   model: z.string().trim().min(1).max(120).optional(),
-  platform: z.literal("macos").default("macos"),
+  platform: z.enum(["macos", "linux"]).default("macos"),
   appVersion: z.string().trim().min(1).max(40).optional(),
   cliVersion: z.string().trim().min(1).max(40).optional(),
 });
