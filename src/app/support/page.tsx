@@ -17,7 +17,11 @@ export default function Support() {
         <article className="mx-auto max-w-3xl px-6 pb-24 pt-16">
           <h1 className="mb-2 text-3xl font-semibold">Support</h1>
           <p className="mb-10 text-sm text-[#8d9286]">
-            Help for Transcript on Mac and iPhone.
+            Help for Transcript on Mac and iPhone, and the{" "}
+            <Link href="/linux" className="underline underline-offset-2">
+              Linux CLI
+            </Link>
+            .
           </p>
 
           <div className="space-y-8 text-sm leading-relaxed text-[#aeb5a8] [&_a]:text-[#d9ff72] [&_a]:underline [&_a]:underline-offset-2 [&_h2]:mb-3 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-[#f5f7ef] [&_li]:pl-1 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">

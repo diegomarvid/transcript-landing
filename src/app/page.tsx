@@ -247,6 +247,9 @@ function Footer() {
           <Link href="/changelog" className="transition-colors hover:text-white">
             Changelog
           </Link>
+          <Link href="/linux" className="transition-colors hover:text-white">
+            Linux CLI
+          </Link>
           <Link href="/terms" className="transition-colors hover:text-white">
             Terms of Service
           </Link>

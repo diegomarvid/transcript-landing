@@ -5,6 +5,7 @@ const pages = [
   { path: "", priority: 1, changeFrequency: "weekly" as const },
   { path: "/changelog", priority: 0.7, changeFrequency: "weekly" as const },
   { path: "/support", priority: 0.4, changeFrequency: "yearly" as const },
+  { path: "/linux", priority: 0.4, changeFrequency: "monthly" as const },
   { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" as const },
 ];
